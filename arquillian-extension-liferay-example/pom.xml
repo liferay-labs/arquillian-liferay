@@ -10,7 +10,7 @@
 
 	<groupId>com.liferay.arquillian</groupId>
 	<artifactId>com.liferay.arquillian.arquillian-liferay-extension-example</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<name>Arquillian Liferay Extension Example</name>
 	<description>Arquillian Liferay Extension Example</description>
 

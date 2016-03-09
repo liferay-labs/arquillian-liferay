@@ -11,7 +11,7 @@
 
 	<groupId>com.liferay.arquillian</groupId>
 	<artifactId>com.liferay.arquillian.arquillian-container-liferay</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<name>Arquillian Liferay Container Adapter</name>
 	<description>Arquillian Container Adapter for Liferay Portal Server. OSGi incontainer deployment.</description>
 

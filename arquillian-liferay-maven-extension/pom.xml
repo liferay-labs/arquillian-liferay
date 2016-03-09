@@ -12,6 +12,7 @@
 <groupId>com.liferay.arquillian</groupId>
 <name>Arquillian Maven Extension for Liferay</name>
 <description>The Deployment Scenario for Liferay Maven projects</description>
+<version>1.0.1</version>
 
 <dependencies>
 
