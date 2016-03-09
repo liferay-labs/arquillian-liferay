@@ -5,13 +5,13 @@
 	<parent>
 		<artifactId>com.liferay.arquillian.arquillian-extension-liferay</artifactId>
 		<groupId>com.liferay.arquillian</groupId>
-		<version>1.0.0.Alpha3</version>
+		<version>1.0.0</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<groupId>com.liferay.arquillian</groupId>
 	<artifactId>com.liferay.arquillian.arquillian-container-osgi-allin</artifactId>
-	<version>1.0.0.Alpha3</version>
+	<version>1.0.0</version>
 	<name>Arquillian Container OSGi All In</name>
 	<description>Arquillian Remote Container OSGi that allow to use standars extensions</description>
 
