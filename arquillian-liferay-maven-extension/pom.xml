@@ -9,7 +9,7 @@
 </parent>
 
 <artifactId>com.liferay.arquillian.arquillian-liferay-maven-extension</artifactId>
-<groupId>com.liferay.arquillian.maven</groupId>
+<groupId>com.liferay.arquillian</groupId>
 <name>Arquillian Maven Extension for Liferay</name>
 <description>The Deployment Scenario for Liferay Maven projects</description>
 
