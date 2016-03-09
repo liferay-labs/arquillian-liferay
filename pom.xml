@@ -235,9 +235,9 @@
 
 	<distributionManagement>
 		<repository>
-			<id>liferay-snapshot</id>
+			<id>liferay-releases</id>
 			<name>Liferay Snapshot Repository</name>
-			<url>https://repository.liferay.com/nexus/content/repositories/liferay-snapshots-ce</url>
+			<url>https://repository.liferay.com/nexus/content/repositories/liferay-releases-ce</url>
 		</repository>
 	</distributionManagement>
 </project>
