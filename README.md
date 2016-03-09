@@ -17,7 +17,7 @@ We have defined a complete example of how to use it in [arquillian-extension-lif
 
 ##Build Status
 
-[![Build Status](https://arquillian.ci.cloudbees.com/buildStatus/icon?job=Arquillian-Extension-Liferay)](https://arquillian.ci.cloudbees.com/job/Arquillian-Extension-Liferay/)
+![Build Status](https://travis-ci.org/liferay-labs/arquillian-liferay.svg?branch=master)
 
 ![codecov.io](https://codecov.io/github/arquillian/arquillian-extension-liferay/coverage.svg?branch=master)
 
