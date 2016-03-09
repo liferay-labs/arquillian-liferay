@@ -57,7 +57,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-antrun-plugin</artifactId>
-						<version>1.6</version>
+						<version>1.8</version>
 						<executions>
 							<execution>
 								<id>unzip-liferay</id>
@@ -193,15 +193,16 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-antrun-plugin</artifactId>
-						<configuration>
-							<tasks>
-								<sleep seconds="100" />
-							</tasks>
-						</configuration>
+						<version>1.8</version>
 						<executions>
 							<execution>
 								<id>sleep-for-a-while</id>
 								<phase>test-compile</phase>
+								<configuration>
+									<target>
+										<sleep seconds="100" />
+									</target>
+								</configuration>
 								<goals>
 									<goal>run</goal>
 								</goals>
