@@ -18,6 +18,7 @@ import com.liferay.arquillian.containter.remote.enricher.Inject;
 import com.liferay.arquillian.portal.annotation.PortalURL;
 import com.liferay.arquillian.sample.service.SampleService;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.shrinkwrap.osgi.api.BndProjectBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +31,6 @@ import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.jboss.shrinkwrap.osgi.api.BndProjectBuilder;
 
 import org.junit.Assert;
 import org.junit.Test;

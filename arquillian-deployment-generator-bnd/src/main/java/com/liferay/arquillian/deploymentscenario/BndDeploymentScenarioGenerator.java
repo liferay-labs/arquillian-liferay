@@ -18,6 +18,7 @@ import aQute.bnd.osgi.Analyzer;
 import aQute.bnd.osgi.Jar;
 
 import com.liferay.arquillian.deploymentscenario.annotations.BndFile;
+import com.liferay.shrinkwrap.osgi.api.BndProjectBuilder;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -41,7 +42,6 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.ByteArrayAsset;
 import org.jboss.shrinkwrap.api.exporter.ZipExporter;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.jboss.shrinkwrap.osgi.api.BndProjectBuilder;
 
 /**
  * @author Carlos Sierra Andrés
@@ -89,6 +89,25 @@ public class BndDeploymentScenarioGenerator
 
 			if (commonBndFile != null) {
 				bndProjectBuilder.addProjectPropertiesFile(commonBndFile);
+			}
+
+			String javaClassPathString = System.getProperty("java.class.path");
+
+			String[] javaClassPaths = javaClassPathString.split(
+				File.pathSeparator);
+
+			for (String javaClassPath : javaClassPaths) {
+				File file = new File(javaClassPath);
+
+				if (!(
+					file.isDirectory() ||
+					javaClassPath.toLowerCase().endsWith(".zip") ||
+					javaClassPath.toLowerCase().endsWith(".jar"))) {
+
+					continue;
+				}
+
+				bndProjectBuilder.addClassPath(file);
 			}
 
 			JavaArchive javaArchive = bndProjectBuilder.as(JavaArchive.class);

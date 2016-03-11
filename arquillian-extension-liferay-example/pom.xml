@@ -4,13 +4,13 @@
 <parent>
 	<artifactId>com.liferay.arquillian.arquillian-extension-liferay</artifactId>
 	<groupId>com.liferay.arquillian</groupId>
-	<version>1.0.0</version>
+	<version>1.0.2</version>
 	<relativePath>../pom.xml</relativePath>
 </parent>
 
 	<groupId>com.liferay.arquillian</groupId>
 	<artifactId>com.liferay.arquillian.arquillian-liferay-extension-example</artifactId>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 	<name>Arquillian Liferay Extension Example</name>
 	<description>Arquillian Liferay Extension Example</description>
 
@@ -218,7 +218,7 @@
 		<dependency>
 			<groupId>com.liferay.portal</groupId>
 			<artifactId>com.liferay.portal.kernel</artifactId>
-			<version>1.0.1</version>
+			<version>1.0.3</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -294,9 +294,9 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.jboss.shrinkwrap.osgi</groupId>
-			<artifactId>shrinkwrap-osgi</artifactId>
-			<version>1.0.0-alpha-1</version>
+			<groupId>com.liferay</groupId>
+			<artifactId>com.liferay.shrinkwrap.osgi</artifactId>
+			<version>1.0.0</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

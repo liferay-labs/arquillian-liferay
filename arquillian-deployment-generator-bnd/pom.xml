@@ -4,14 +4,14 @@
 	<parent>
 		<artifactId>com.liferay.arquillian.arquillian-extension-liferay</artifactId>
 		<groupId>com.liferay.arquillian</groupId>
-		<version>1.0.0</version>
+		<version>1.0.2</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<artifactId>com.liferay.arquillian.arquillian-deployment-generator-bnd</artifactId>
 	<groupId>com.liferay.arquillian</groupId>
 	<modelVersion>4.0.0</modelVersion>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 	<name>Arquillian Liferay Deployment Scenario Generator</name>
 	<description>Arquillian Deployment Scenario Generator for BND liferay plugins</description>
 
@@ -33,9 +33,9 @@
 			<artifactId>arquillian-container-test-spi</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.jboss.shrinkwrap.osgi</groupId>
-			<artifactId>shrinkwrap-osgi</artifactId>
-			<version>1.0.0-alpha-1</version>
+			<groupId>com.liferay</groupId>
+			<artifactId>com.liferay.shrinkwrap.osgi</artifactId>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.arquillian.container</groupId>
