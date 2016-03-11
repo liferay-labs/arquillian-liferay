@@ -28,6 +28,8 @@ import java.util.Properties;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
+import com.liferay.shrinkwrap.osgi.api.BndProjectBuilder;
+
 import org.jboss.arquillian.container.spi.client.deployment.DeploymentDescription;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.container.test.impl.client.deployment.AnnotationDeploymentScenarioGenerator;
@@ -41,7 +43,6 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.ByteArrayAsset;
 import org.jboss.shrinkwrap.api.exporter.ZipExporter;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.jboss.shrinkwrap.osgi.api.BndProjectBuilder;
 
 /**
  * @author Carlos Sierra Andrés
@@ -89,6 +90,24 @@ public class BndDeploymentScenarioGenerator
 
 			if (commonBndFile != null) {
 				bndProjectBuilder.addProjectPropertiesFile(commonBndFile);
+			}
+
+			String javaClassPathString = System.getProperty("java.class.path");
+
+			String[] javaClassPaths = javaClassPathString.split(File.pathSeparator);
+
+			for (String javaClassPath : javaClassPaths) {
+				File file = new File(javaClassPath);
+
+				if (!(
+					file.isDirectory() ||
+					javaClassPath.toLowerCase().endsWith(".zip") ||
+					javaClassPath.toLowerCase().endsWith(".jar"))) {
+
+					continue;
+				}
+
+				bndProjectBuilder.addClassPath(file);
 			}
 
 			JavaArchive javaArchive = bndProjectBuilder.as(JavaArchive.class);
