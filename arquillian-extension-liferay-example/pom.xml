@@ -4,13 +4,13 @@
 <parent>
 	<artifactId>com.liferay.arquillian.arquillian-extension-liferay</artifactId>
 	<groupId>com.liferay.arquillian</groupId>
-	<version>1.0.0</version>
+	<version>1.0.2</version>
 	<relativePath>../pom.xml</relativePath>
 </parent>
 
 	<groupId>com.liferay.arquillian</groupId>
 	<artifactId>com.liferay.arquillian.arquillian-liferay-extension-example</artifactId>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 	<name>Arquillian Liferay Extension Example</name>
 	<description>Arquillian Liferay Extension Example</description>
 
