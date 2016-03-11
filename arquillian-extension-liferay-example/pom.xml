@@ -294,9 +294,9 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.jboss.shrinkwrap.osgi</groupId>
-			<artifactId>shrinkwrap-osgi</artifactId>
-			<version>1.0.0-alpha-1</version>
+			<groupId>com.liferay</groupId>
+			<artifactId>com.liferay.shrinkwrap.osgi</artifactId>
+			<version>1.0.0</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
