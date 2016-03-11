@@ -18,6 +18,7 @@ import aQute.bnd.osgi.Analyzer;
 import aQute.bnd.osgi.Jar;
 
 import com.liferay.arquillian.deploymentscenario.annotations.BndFile;
+import com.liferay.shrinkwrap.osgi.api.BndProjectBuilder;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -27,8 +28,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
-
-import com.liferay.shrinkwrap.osgi.api.BndProjectBuilder;
 
 import org.jboss.arquillian.container.spi.client.deployment.DeploymentDescription;
 import org.jboss.arquillian.container.test.api.RunAsClient;
@@ -94,7 +93,8 @@ public class BndDeploymentScenarioGenerator
 
 			String javaClassPathString = System.getProperty("java.class.path");
 
-			String[] javaClassPaths = javaClassPathString.split(File.pathSeparator);
+			String[] javaClassPaths = javaClassPathString.split(
+				File.pathSeparator);
 
 			for (String javaClassPath : javaClassPaths) {
 				File file = new File(javaClassPath);

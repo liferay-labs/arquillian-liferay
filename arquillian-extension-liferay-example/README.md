@@ -327,12 +327,12 @@ import java.io.IOException;
 
 import com.liferay.arquillian.containter.liferay.remote.enricher.Inject;
 import com.liferay.arquillian.sample.service.SampleService;
+import com.liferay.shrinkwrap.osgi.api.BndProjectBuilder;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.jboss.shrinkwrap.osgi.api.BndProjectBuilder;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -449,6 +449,7 @@ import java.net.URL;
 import com.liferay.arquillian.containter.liferay.remote.enricher.Inject;
 import com.liferay.arquillian.installportlet.annotation.InstallPortlet;
 import com.liferay.arquillian.sample.service.SampleService;
+import com.liferay.shrinkwrap.osgi.api.BndProjectBuilder;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
@@ -456,7 +457,6 @@ import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.jboss.shrinkwrap.osgi.api.BndProjectBuilder;
 
 import org.junit.Assert;
 import org.junit.Test;

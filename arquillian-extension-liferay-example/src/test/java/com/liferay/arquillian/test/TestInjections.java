@@ -20,6 +20,7 @@ import com.liferay.arquillian.sample.service4injection.ServiceFirstImpl;
 import com.liferay.arquillian.sample.service4injection.ServiceSecondImpl;
 import com.liferay.portal.kernel.model.Release;
 import com.liferay.portal.kernel.service.ReleaseLocalService;
+import com.liferay.shrinkwrap.osgi.api.BndProjectBuilder;
 
 import java.io.File;
 
@@ -28,7 +29,6 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.jboss.shrinkwrap.osgi.api.BndProjectBuilder;
 
 import org.junit.Assert;
 import org.junit.Test;
