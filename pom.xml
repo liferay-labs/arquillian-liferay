@@ -218,7 +218,6 @@
 		<module>arquillian-portal-liferay-extension</module>
 		<module>arquillian-deployment-generator-bnd</module>
 		<module>arquillian-extension-liferay-example</module>
-		<module>arquillian-liferay-maven-extension</module>
 		<module>arquillian-processor-osgi-allin</module>
 	</modules>
 

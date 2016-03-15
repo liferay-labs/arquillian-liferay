@@ -12,7 +12,6 @@ It consists of:
 
 * Arquillian Remote Container for Liferay (OSGi based)
 * Arquillian Deployment Scenario Generator for OSGi SDK plugins based on BND
-* Arquillian Deployment Scenario Generator for legacy Maven plugins
 
 ##How to use it?
 
