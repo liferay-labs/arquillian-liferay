@@ -1,4 +1,7 @@
 # Arquillian Liferay
+
+![Build Status](https://travis-ci.org/liferay-labs/arquillian-liferay.svg?branch=master) ![codecov.io](https://codecov.io/github/liferay-labs/arquillian-liferay/coverage.svg?branch=master)
+
 Arquillian Extension for Liferay Portal Server. OSGi incontainer deployment.
 
 ##What is this?
@@ -14,12 +17,6 @@ It consists of:
 ##How to use it?
 
 We have defined a complete example of how to use it in [arquillian-extension-liferay-example](arquillian-extension-liferay-example/README.md)
-
-##Build Status
-
-![Build Status](https://travis-ci.org/liferay-labs/arquillian-liferay.svg?branch=master)
-
-![codecov.io](https://codecov.io/github/arquillian/arquillian-extension-liferay/coverage.svg?branch=master)
 
 ## Testing Pull Requests
 If you want any pull request you receive to be automatically tested by Travis CI, please set up your job directly in Travis.
