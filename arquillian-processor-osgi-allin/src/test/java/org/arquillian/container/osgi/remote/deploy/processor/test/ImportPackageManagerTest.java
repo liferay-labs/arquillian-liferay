@@ -117,8 +117,8 @@ public class ImportPackageManagerTest {
 		try {
 			ManifestUtil.createManifest(javaArchive);
 		}
-		catch (IOException e) {
-			throw new RuntimeException(e);
+		catch (IOException ioe) {
+			throw new RuntimeException(ioe);
 		}
 
 		return javaArchive;

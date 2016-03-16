@@ -40,24 +40,30 @@ public class PortalURLAuxiliaryAppender implements AuxiliaryArchiveAppender {
 		archive.addClass(PortalURLServlet.class);
 		archive.addClass(PortalURLAuxiliaryAppender.class);
 
-		archive.setManifest(new Asset() {
-			@Override
-			public InputStream openStream() {
-				OSGiManifestBuilder builder = OSGiManifestBuilder.newInstance();
-				builder.addBundleManifestVersion(2);
-				builder.addBundleSymbolicName(
-					"arquillian-install-portlet-in-liferay");
-				builder.addImportPackages(
-					"com.liferay.portal.kernel.exception",
-					"com.liferay.portal.kernel.util",
-					"com.liferay.portal.kernel.model",
-					"com.liferay.portal.kernel.service", "javax.servlet.http",
-					"javax.portlet", "javax.servlet", "org.osgi.framework");
-				builder.addBundleActivator(PortalURLBundleActivator.class);
+		archive.setManifest(
+			new Asset() {
 
-				return builder.openStream();
-			}
-		});
+				@Override
+				public InputStream openStream() {
+					OSGiManifestBuilder builder =
+						OSGiManifestBuilder.newInstance();
+
+					builder.addBundleManifestVersion(2);
+					builder.addBundleSymbolicName(
+						"arquillian-install-portlet-in-liferay");
+					builder.addImportPackages(
+						"com.liferay.portal.kernel.exception",
+						"com.liferay.portal.kernel.util",
+						"com.liferay.portal.kernel.model",
+						"com.liferay.portal.kernel.service",
+						"javax.servlet.http", "javax.portlet", "javax.servlet",
+						"org.osgi.framework");
+					builder.addBundleActivator(PortalURLBundleActivator.class);
+
+					return builder.openStream();
+				}
+
+			});
 
 		return archive;
 	}

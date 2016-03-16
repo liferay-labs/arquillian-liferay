@@ -32,7 +32,7 @@ public interface ManifestManager {
 			Manifest manifest, String attributeName, String... attributeValue)
 		throws IOException;
 
-	public void replaceManifest(Archive archive, Manifest manifest )
+	public void replaceManifest(Archive archive, Manifest manifest)
 		throws IOException;
 
 }

@@ -55,6 +55,7 @@ public class ArquillianBundleActivator implements BundleActivator {
 
 				return context.getBundle().loadClass(className);
 			}
+
 		};
 
 		// Execute all activators
@@ -70,6 +71,7 @@ public class ArquillianBundleActivator implements BundleActivator {
 		MBeanServer mbeanServer = findOrCreateMBeanServer();
 
 		testRunner = new JMXTestRunner(testClassLoader) {
+
 			@Override
 			public byte[] runTestMethod(String className, String methodName) {
 				BundleAssociation.setBundle(context.getBundle());
@@ -77,6 +79,7 @@ public class ArquillianBundleActivator implements BundleActivator {
 
 				return super.runTestMethod(className, methodName);
 			}
+
 		};
 		testRunner.registerMBean(mbeanServer);
 	}
@@ -99,7 +102,11 @@ public class ArquillianBundleActivator implements BundleActivator {
 	private void addBundleActivatorToActivatorsListFromStringLine(
 		Set<BundleActivator> activators, String line) {
 
-		ClassLoader classLoader = getClass().getClassLoader();
+		Class<? extends ArquillianBundleActivator>
+			arquillianBundleActivatorClass = getClass();
+
+		ClassLoader classLoader =
+			arquillianBundleActivatorClass.getClassLoader();
 
 		if (line.startsWith("!")) {
 			return;
@@ -163,8 +170,9 @@ public class ArquillianBundleActivator implements BundleActivator {
 
 		List<MBeanServer> serverArr = MBeanServerFactory.findMBeanServer(null);
 
-		if (serverArr.size() > 1)
+		if (serverArr.size() > 1) {
 			logger.warning("Multiple MBeanServer instances: " + serverArr);
+		}
 
 		if (!serverArr.isEmpty()) {
 			mbeanServer = serverArr.get(0);
@@ -185,7 +193,11 @@ public class ArquillianBundleActivator implements BundleActivator {
 
 		Set<BundleActivator> activators = new LinkedHashSet<>();
 
-		ClassLoader classLoader = getClass().getClassLoader();
+		Class<? extends ArquillianBundleActivator>
+			arquillianBundleActivatorClass = getClass();
+
+		ClassLoader classLoader =
+			arquillianBundleActivatorClass.getClassLoader();
 
 		try {
 			Enumeration<URL> enumeration = classLoader.getResources(

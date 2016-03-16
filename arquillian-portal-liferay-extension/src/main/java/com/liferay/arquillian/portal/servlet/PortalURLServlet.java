@@ -74,10 +74,11 @@ public class PortalURLServlet extends HttpServlet {
 					_layoutLocalService.deleteLayout(
 						layout.getPlid(), new ServiceContext());
 				}
-				catch (PortalException e) {
+				catch (PortalException pe) {
 					_logger.log(
 						Level.WARNING,
-						"Error trying to delete layout " + layout.getPlid(), e);
+						"Error trying to delete layout " + layout.getPlid(),
+						pe);
 				}
 			}
 		}
@@ -144,8 +145,8 @@ public class PortalURLServlet extends HttpServlet {
 
 			response.sendRedirect("/"+uuid.toString());
 		}
-		catch (PortalException e) {
-			_logger.log(Level.SEVERE, e.getMessage(), e);
+		catch (PortalException pe) {
+			_logger.log(Level.SEVERE, pe.getMessage(), pe);
 		}
 	}
 

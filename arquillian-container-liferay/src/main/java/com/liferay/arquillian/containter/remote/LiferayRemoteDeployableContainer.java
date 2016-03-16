@@ -26,7 +26,7 @@ import org.jboss.shrinkwrap.api.Archive;
  */
 public class LiferayRemoteDeployableContainer
 	<T extends LiferayRemoteContainerConfiguration>
-	extends KarafWithoutBundleRemoteDeployableContainer<T> {
+		extends KarafWithoutBundleRemoteDeployableContainer<T> {
 
 	@Override
 	public ProtocolMetaData deploy(Archive<?> archive)

@@ -28,7 +28,7 @@ import org.jboss.arquillian.container.spi.client.container.LifecycleException;
  */
 public class KarafWithoutBundleRemoteDeployableContainer
 	<T extends KarafRemoteContainerConfiguration>
-	extends KarafRemoteDeployableContainer<T> {
+		extends KarafRemoteDeployableContainer<T> {
 
 	@Override
 	protected void awaitArquillianBundleActive(long timeout, TimeUnit unit)

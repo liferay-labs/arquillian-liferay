@@ -52,8 +52,9 @@ public class BndDeploymentScenarioGeneratorTest {
 					getDefaultDeploymentScenarioGenerator() {
 
 					return null;
-			}
-		};
+				}
+
+			};
 
 		bndDeploymentScenarioGenerator.setBndFile(
 			new File("target/test-classes/test.bnd"));
@@ -104,13 +105,14 @@ public class BndDeploymentScenarioGeneratorTest {
 		BndDeploymentScenarioGenerator bndDeploymentScenarioGenerator =
 			new BndDeploymentScenarioGenerator() {
 
-			@Override
-			protected DeploymentScenarioGenerator
-				getDefaultDeploymentScenarioGenerator() {
+				@Override
+				protected DeploymentScenarioGenerator
+					getDefaultDeploymentScenarioGenerator() {
 
-				return null;
-			}
-		};
+					return null;
+				}
+
+			};
 
 		bndDeploymentScenarioGenerator.setBndFile(
 			new File("target/test-classes/test.bnd"));
@@ -173,13 +175,14 @@ public class BndDeploymentScenarioGeneratorTest {
 		BndDeploymentScenarioGenerator bndDeploymentScenarioGenerator =
 			new BndDeploymentScenarioGenerator() {
 
-			@Override
-			protected DeploymentScenarioGenerator
-				getDefaultDeploymentScenarioGenerator() {
+				@Override
+				protected DeploymentScenarioGenerator
+					getDefaultDeploymentScenarioGenerator() {
 
-				return null;
-			}
-		};
+					return null;
+				}
+
+			};
 
 		bndDeploymentScenarioGenerator.setBndFile(
 			new File("target/test-classes/test.bnd"));

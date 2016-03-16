@@ -144,8 +144,8 @@ public class LiferayTestEnricher implements TestEnricher {
 		try {
 			declaredField.set(testCase, service);
 		}
-		catch (IllegalAccessException e) {
-			e.printStackTrace();
+		catch (IllegalAccessException iae) {
+			iae.printStackTrace();
 		}
 
 		declaredField.setAccessible(accessible);
