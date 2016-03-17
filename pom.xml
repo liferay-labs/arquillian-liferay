@@ -107,34 +107,7 @@
 		</dependencies>
 	</dependencyManagement>
 
-
 	<profiles>
-		<profile>
-			<id>format-source</id>
-			<activation>
-				<property>
-					<name>format-source</name>
-					<value>true</value>
-				</property>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>com.liferay</groupId>
-						<artifactId>com.liferay.source.formatter</artifactId>
-						<version>1.0.48</version>
-						<executions>
-							<execution>
-								<phase>compile</phase>
-								<goals>
-									<goal>format-source</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
 		<profile>
 			<id>jacoco</id>
 			<activation>
@@ -208,6 +181,22 @@
 					<pushChanges>false</pushChanges>
 					<localCheckout>true</localCheckout>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.liferay</groupId>
+				<artifactId>com.liferay.source.formatter</artifactId>
+				<version>1.0.164</version>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<configuration>
+							<throwException>true</throwException>
+						</configuration>
+						<goals>
+							<goal>format-source</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

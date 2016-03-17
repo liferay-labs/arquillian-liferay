@@ -105,8 +105,8 @@ public class OSGiAllInProcessor implements ApplicationArchiveProcessor {
 				addBundleActivator(javaArchive, bundleActivator);
 			}
 		}
-		catch (RuntimeException rte) {
-			throw rte;
+		catch (RuntimeException re) {
+			throw re;
 		}
 		catch (Exception ex) {
 			throw new IllegalArgumentException(
@@ -136,12 +136,11 @@ public class OSGiAllInProcessor implements ApplicationArchiveProcessor {
 	}
 
 	private void addOSGiImports(JavaArchive javaArchive) throws IOException {
-		String[] extensionsImports =
-			new String[] {"org.osgi.framework", "javax.management",
-				"javax.management.*", "javax.naming", "javax.naming.*",
-				"org.osgi.service.packageadmin", "org.osgi.service.startlevel",
-				"org.osgi.util.tracker"
-			};
+		String[] extensionsImports = new String[] {
+			"org.osgi.framework", "javax.management", "javax.management.*",
+			"javax.naming", "javax.naming.*", "org.osgi.service.packageadmin",
+			"org.osgi.service.startlevel", "org.osgi.util.tracker"
+		};
 
 		ManifestManager manifestManager = _manifestManagerInstance.get();
 
@@ -314,11 +313,11 @@ public class OSGiAllInProcessor implements ApplicationArchiveProcessor {
 					addBundleActivator(javaArchive, bundleActivatorValue);
 				}
 			}
-			catch (BundleException e) {
+			catch (BundleException be) {
 				if (_logger.isInfoEnabled()) {
 					_logger.info(
 						"Not processing manifest from " + auxiliaryArchive +
-							": " + e.getMessage());
+							": " + be.getMessage());
 				}
 			}
 		}

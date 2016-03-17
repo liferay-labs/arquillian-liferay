@@ -57,9 +57,9 @@ public class PortalURLTestEnricher implements TestEnricher {
 				try {
 					injectField(declaredField, testCase, annotation.value());
 				}
-				catch (IllegalAccessException e) {
+				catch (IllegalAccessException iae) {
 					throw new RuntimeException(
-						"Exception when injecting the field", e);
+						"Exception when injecting the field", iae);
 				}
 			}
 		}

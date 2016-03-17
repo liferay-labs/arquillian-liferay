@@ -142,13 +142,13 @@ public class ManifestManagerTest {
 		Assert.assertTrue(
 			"The import package " + importPackage1 +
 				" is not present in the header Import-Package " +
-				importPackagesList,
+					importPackagesList,
 			importPackagesList.contains("com.import.example1"));
 
 		Assert.assertTrue(
 			"The import package " + importPackage2 +
 				" is not present in the header Import-Package " +
-				importPackagesList,
+					importPackagesList,
 			importPackagesList.contains(importPackage2));
 	}
 

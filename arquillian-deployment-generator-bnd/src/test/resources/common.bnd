@@ -1,2 +1,2 @@
-Foo-Property: test
 Foo-Bad-Property: ${a.non.existant.property}
+Foo-Property: test

@@ -572,8 +572,8 @@ public class OSGiAllInProcessorTest {
 				addAllExtensionsToApplicationArchiveProcessor,
 				serviceLoaderDummyInstance);
 		}
-		catch (IllegalAccessException e) {
-			e.printStackTrace();
+		catch (IllegalAccessException iae) {
+			iae.printStackTrace();
 		}
 
 		Field importPackageManagerInstance =
@@ -592,8 +592,8 @@ public class OSGiAllInProcessorTest {
 				addAllExtensionsToApplicationArchiveProcessor,
 				importPackageManagerDummyInstance);
 		}
-		catch (IllegalAccessException e) {
-			e.printStackTrace();
+		catch (IllegalAccessException iae) {
+			iae.printStackTrace();
 		}
 
 		Field manifestManagerInstance =
@@ -612,8 +612,8 @@ public class OSGiAllInProcessorTest {
 				addAllExtensionsToApplicationArchiveProcessor,
 				manifestManagerDummyInstance);
 		}
-		catch (IllegalAccessException e) {
-			e.printStackTrace();
+		catch (IllegalAccessException iae) {
+			iae.printStackTrace();
 		}
 
 		Field manifestManagerInstanceinImportPackageManager =
@@ -627,8 +627,8 @@ public class OSGiAllInProcessorTest {
 				importPackageManagerDummyInstance.get(),
 				manifestManagerDummyInstance);
 		}
-		catch (IllegalAccessException e) {
-			e.printStackTrace();
+		catch (IllegalAccessException iae) {
+			iae.printStackTrace();
 		}
 
 		Field bundleActivatorsManagerInstance =
@@ -648,8 +648,8 @@ public class OSGiAllInProcessorTest {
 				addAllExtensionsToApplicationArchiveProcessor,
 				bundleActivatorManagerDummyInstance);
 		}
-		catch (IllegalAccessException e) {
-			e.printStackTrace();
+		catch (IllegalAccessException iae) {
+			iae.printStackTrace();
 		}
 
 		return addAllExtensionsToApplicationArchiveProcessor;
@@ -670,8 +670,8 @@ public class OSGiAllInProcessorTest {
 	}
 
 	private OSGiAllInProcessor
-		getProcessorWithOSGIJarAuxiliaryArchiveWithActivator(
-			String activator)
+			getProcessorWithOSGIJarAuxiliaryArchiveWithActivator(
+				String activator)
 		throws IllegalAccessException, NoSuchFieldException {
 
 		return getProcessor(

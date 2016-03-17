@@ -80,7 +80,7 @@ public class ManifestManagerImpl implements ManifestManager {
 	}
 
 	@Override
-	public void replaceManifest(Archive archive, Manifest manifest )
+	public void replaceManifest(Archive archive, Manifest manifest)
 		throws IOException {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();

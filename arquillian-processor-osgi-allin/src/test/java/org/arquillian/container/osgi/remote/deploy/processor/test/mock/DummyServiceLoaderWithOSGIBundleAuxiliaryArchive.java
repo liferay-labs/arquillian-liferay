@@ -105,8 +105,8 @@ public class DummyServiceLoaderWithOSGIBundleAuxiliaryArchive
 			try {
 				ManifestUtil.createManifest(javaArchive, _imports);
 			}
-			catch (IOException e) {
-				throw new RuntimeException(e);
+			catch (IOException ioe) {
+				throw new RuntimeException(ioe);
 			}
 
 			return javaArchive;

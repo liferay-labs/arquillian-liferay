@@ -32,7 +32,7 @@ import org.osgi.util.tracker.ServiceTracker;
 public class LiferayWaitForServiceObserver {
 
 	public void execute(@Observes(precedence = Integer.MAX_VALUE)
-			EventContext<BeforeSuite> event) throws InvalidSyntaxException {
+		EventContext<BeforeSuite> event) throws InvalidSyntaxException {
 
 		Bundle bundle = FrameworkUtil.getBundle(getClass());
 
@@ -41,7 +41,7 @@ public class LiferayWaitForServiceObserver {
 		Filter filter = FrameworkUtil.createFilter(
 			"(&(objectClass=org.springframework.context.ApplicationContext)" +
 				"(org.springframework.context.service.name=" +
-				bundleContext.getBundle().getSymbolicName() + "))");
+					bundle.getSymbolicName() + "))");
 
 		ServiceTracker<ApplicationContext, ApplicationContext> serviceTracker =
 			new ServiceTracker<>(bundleContext, filter, null);
@@ -51,8 +51,8 @@ public class LiferayWaitForServiceObserver {
 		try {
 			serviceTracker.waitForService(30 * 1000L);
 		}
-		catch (InterruptedException e) {
-			throw new RuntimeException(e);
+		catch (InterruptedException ie) {
+			throw new RuntimeException(ie);
 		}
 
 		serviceTracker.close();

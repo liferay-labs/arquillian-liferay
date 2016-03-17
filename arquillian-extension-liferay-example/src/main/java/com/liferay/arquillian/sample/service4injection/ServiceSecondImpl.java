@@ -20,8 +20,7 @@ import org.osgi.service.component.annotations.Component;
  * @author Cristina González
  */
 @Component(
-	immediate = true, property = {"name=ServiceSecond"},
-	service = Service.class
+	immediate = true, property = {"name=ServiceSecond"}, service = Service.class
 )
 public class ServiceSecondImpl implements Service {
 
