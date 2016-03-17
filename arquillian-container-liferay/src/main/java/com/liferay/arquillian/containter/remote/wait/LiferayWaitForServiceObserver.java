@@ -41,7 +41,7 @@ public class LiferayWaitForServiceObserver {
 		Filter filter = FrameworkUtil.createFilter(
 			"(&(objectClass=org.springframework.context.ApplicationContext)" +
 				"(org.springframework.context.service.name=" +
-					bundleContext.getBundle().getSymbolicName() + "))");
+					bundle.getSymbolicName() + "))");
 
 		ServiceTracker<ApplicationContext, ApplicationContext> serviceTracker =
 			new ServiceTracker<>(bundleContext, filter, null);
