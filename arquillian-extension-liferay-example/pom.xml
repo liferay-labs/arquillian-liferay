@@ -242,7 +242,7 @@
 		<dependency>
 			<groupId>com.liferay.arquillian</groupId>
 			<artifactId>com.liferay.arquillian.arquillian-container-liferay</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.4</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
