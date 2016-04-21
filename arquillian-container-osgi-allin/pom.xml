@@ -11,7 +11,6 @@
 
 	<groupId>com.liferay.arquillian</groupId>
 	<artifactId>com.liferay.arquillian.arquillian-container-osgi-allin</artifactId>
-	<version>1.0.4</version>
 	<name>Arquillian Container OSGi All In</name>
 	<description>Arquillian Remote Container OSGi that allow to use standars extensions</description>
 

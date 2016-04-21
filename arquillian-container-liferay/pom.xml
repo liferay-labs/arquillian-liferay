@@ -11,7 +11,6 @@
 
 	<groupId>com.liferay.arquillian</groupId>
 	<artifactId>com.liferay.arquillian.arquillian-container-liferay</artifactId>
-	<version>1.0.4</version>
 	<name>Arquillian Liferay Container Adapter</name>
 	<description>Arquillian Container Adapter for Liferay Portal Server. OSGi incontainer deployment.</description>
 
@@ -22,6 +21,11 @@
 			<version>2.4.0</version>
 		</dependency>
 		<dependency>
+			<groupId>com.liferay</groupId>
+			<artifactId>com.liferay.hot.deploy.jmx.listener</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
@@ -30,17 +34,17 @@
 		<dependency>
 			<groupId>com.liferay.arquillian</groupId>
 			<artifactId>com.liferay.arquillian.arquillian-container-osgi-allin</artifactId>
-			<version>1.0.0</version>
+			<version>${parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.liferay.arquillian</groupId>
 			<artifactId>com.liferay.arquillian.arquillian-processor-osgi-allin</artifactId>
-			<version>1.0.0</version>
+			<version>${parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.liferay.arquillian</groupId>
 			<artifactId>com.liferay.arquillian.arquillian-portal-liferay-extension</artifactId>
-			<version>1.0.0</version>
+			<version>${parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.osgi</groupId>
