@@ -21,6 +21,11 @@
 			<version>2.4.0</version>
 		</dependency>
 		<dependency>
+			<groupId>com.liferay</groupId>
+			<artifactId>com.liferay.hot.deploy.jmx.listener</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
