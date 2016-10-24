@@ -16,7 +16,6 @@ package com.liferay.arquillian.container.osgi.remote.processor;
 
 import com.liferay.arquillian.container.osgi.remote.activator.ArquillianBundleActivator;
 import com.liferay.arquillian.container.osgi.remote.processor.service.BundleActivatorsManager;
-import com.liferay.arquillian.container.osgi.remote.processor.service.ImportPackageManager;
 import com.liferay.arquillian.container.osgi.remote.processor.service.ManifestManager;
 
 import java.io.IOException;
@@ -28,6 +27,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
@@ -53,6 +53,7 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleException;
+import org.osgi.framework.Constants;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,21 +72,34 @@ public class OSGiAllInProcessor implements ApplicationArchiveProcessor {
 
 			addTestClass(javaArchive, testClass);
 
-			addOSGiImports(javaArchive);
+			List<Archive<?>> extensionArchives = loadAuxiliaryArchives();
+
+			handleAuxiliaryArchives(javaArchive, extensionArchives);
 
 			addArquillianDependencies(javaArchive);
-
-			List<Archive<?>> auxiliaryArchives = loadAuxiliaryArchives();
-
-			handleAuxiliaryArchives(javaArchive, auxiliaryArchives);
-
-			cleanRepeatedImports(javaArchive, auxiliaryArchives);
 
 			ManifestManager manifestManager = _manifestManagerInstance.get();
 
 			Manifest manifest = manifestManager.getManifest(javaArchive);
 
 			Attributes mainAttributes = manifest.getMainAttributes();
+
+			Attributes.Name importPackageName = new Attributes.Name(
+				"Import-Package");
+
+			String importPackages = mainAttributes.getValue(importPackageName);
+
+			Properties properties = new Properties();
+
+			importPackages +=
+				",*;resolution:=optional," + "org.osgi.framework.startlevel," +
+					"javax.naming,javax.management";
+
+			properties.setProperty(Constants.IMPORT_PACKAGE, importPackages);
+
+			manifest = manifestManager.getManifest(javaArchive);
+
+			mainAttributes = manifest.getMainAttributes();
 
 			Attributes.Name bundleActivatorName = new Attributes.Name(
 				"Bundle-Activator");
@@ -104,6 +118,9 @@ public class OSGiAllInProcessor implements ApplicationArchiveProcessor {
 			if (bundleActivator != null) {
 				addBundleActivator(javaArchive, bundleActivator);
 			}
+
+			manifestManager.generateManifest(
+				javaArchive, extensionArchives, properties);
 		}
 		catch (RuntimeException re) {
 			throw re;
@@ -133,22 +150,6 @@ public class OSGiAllInProcessor implements ApplicationArchiveProcessor {
 
 		bundleActivatorsManager.replaceBundleActivatorsFile(
 			javaArchive, _ACTIVATORS_FILE, bundleActivators);
-	}
-
-	private void addOSGiImports(JavaArchive javaArchive) throws IOException {
-		String[] extensionsImports = new String[] {
-			"org.osgi.framework", "javax.management", "javax.management.*",
-			"javax.naming", "javax.naming.*", "org.osgi.service.packageadmin",
-			"org.osgi.service.startlevel", "org.osgi.util.tracker"
-		};
-
-		ManifestManager manifestManager = _manifestManagerInstance.get();
-
-		Manifest manifest = manifestManager.putAttributeValue(
-			manifestManager.getManifest(javaArchive), "Import-Package",
-			extensionsImports);
-
-		manifestManager.replaceManifest(javaArchive, manifest);
 	}
 
 	private void addTestClass(JavaArchive javaArchive, TestClass testClass)
@@ -212,23 +213,6 @@ public class OSGiAllInProcessor implements ApplicationArchiveProcessor {
 		Manifest manifest = manifestManager.putAttributeValue(
 			manifestManager.getManifest(javaArchive), "Export-Package",
 			javaClass.getPackage().getName());
-
-		manifestManager.replaceManifest(javaArchive, manifest);
-	}
-
-	private void cleanRepeatedImports(
-			JavaArchive javaArchive, Collection<Archive<?>> auxiliaryArchives)
-		throws IOException {
-
-		ImportPackageManager importPackageManager =
-			_importPackageManagerInstance.get();
-
-		ManifestManager manifestManager = _manifestManagerInstance.get();
-
-		Manifest manifest = manifestManager.getManifest(javaArchive);
-
-		manifest = importPackageManager.cleanRepeatedImports(
-			manifest, auxiliaryArchives);
 
 		manifestManager.replaceManifest(javaArchive, manifest);
 	}
@@ -376,9 +360,6 @@ public class OSGiAllInProcessor implements ApplicationArchiveProcessor {
 
 	@Inject
 	private Instance<BundleActivatorsManager> _bundleActivatorsManagerInstance;
-
-	@Inject
-	private Instance<ImportPackageManager> _importPackageManagerInstance;
 
 	@Inject
 	private Instance<ManifestManager> _manifestManagerInstance;
