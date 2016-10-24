@@ -74,7 +74,8 @@ public class OSGiAllInProcessor implements ApplicationArchiveProcessor {
 
 			List<Archive<?>> extensionArchives = loadAuxiliaryArchives();
 
-			handleAuxiliaryArchives(javaArchive, extensionArchives);
+			String classPathImports = handleAuxiliaryArchives(
+				javaArchive, extensionArchives);
 
 			addArquillianDependencies(javaArchive);
 
@@ -94,6 +95,10 @@ public class OSGiAllInProcessor implements ApplicationArchiveProcessor {
 			importPackages +=
 				",*;resolution:=optional," + "org.osgi.framework.startlevel," +
 					"javax.naming,javax.management";
+
+			if (!classPathImports.equals("")) {
+				importPackages += ","+ classPathImports;
+			}
 
 			properties.setProperty(Constants.IMPORT_PACKAGE, importPackages);
 
@@ -217,9 +222,13 @@ public class OSGiAllInProcessor implements ApplicationArchiveProcessor {
 		manifestManager.replaceManifest(javaArchive, manifest);
 	}
 
-	private void handleAuxiliaryArchives(
+	private String handleAuxiliaryArchives(
 			JavaArchive javaArchive, Collection<Archive<?>> auxiliaryArchives)
 		throws IOException {
+
+		StringBuilder sb = new StringBuilder();
+
+		boolean added = false;
 
 		for (Archive auxiliaryArchive : auxiliaryArchives) {
 			Map<ArchivePath, Node> remoteLoadableExtensionMap =
@@ -280,12 +289,9 @@ public class OSGiAllInProcessor implements ApplicationArchiveProcessor {
 				String value = mainAttributes.getValue("Import-package");
 
 				if (value != null) {
-					String[] importValues = value.split(",");
-
-					manifest = manifestManager.putAttributeValue(
-						manifest, "Import-Package", importValues);
-
-					manifestManager.replaceManifest(javaArchive, manifest);
+					sb.append(value);
+					sb.append(",");
+					added = true;
 				}
 
 				String bundleActivatorValue = mainAttributes.getValue(
@@ -305,6 +311,12 @@ public class OSGiAllInProcessor implements ApplicationArchiveProcessor {
 				}
 			}
 		}
+
+		if (added) {
+			sb.setLength(sb.length() - 1);
+		}
+
+		return sb.toString();
 	}
 
 	private List<Archive<?>> loadAuxiliaryArchives() {
