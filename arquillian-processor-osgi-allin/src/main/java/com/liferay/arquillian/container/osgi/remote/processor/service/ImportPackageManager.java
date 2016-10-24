@@ -14,20 +14,16 @@
 
 package com.liferay.arquillian.container.osgi.remote.processor.service;
 
+import aQute.bnd.osgi.Packages;
+
 import java.io.IOException;
-
-import java.util.Collection;
-import java.util.jar.Manifest;
-
-import org.jboss.shrinkwrap.api.Archive;
 
 /**
  * @author Cristina González
  */
 public interface ImportPackageManager {
 
-	public Manifest cleanRepeatedImports(
-			Manifest manifest, Collection<Archive<?>> auxiliaryArchives)
+	public void cleanImports(Packages imports, Packages classpathExports)
 		throws IOException;
 
 }
