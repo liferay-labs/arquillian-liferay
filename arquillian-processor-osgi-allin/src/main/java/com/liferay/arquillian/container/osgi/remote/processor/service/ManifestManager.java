@@ -16,6 +16,8 @@ package com.liferay.arquillian.container.osgi.remote.processor.service;
 
 import java.io.IOException;
 
+import java.util.List;
+import java.util.Properties;
 import java.util.jar.Manifest;
 
 import org.jboss.shrinkwrap.api.Archive;
@@ -25,6 +27,11 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
  * @author Cristina González
  */
 public interface ManifestManager {
+
+	public void generateManifest(
+			JavaArchive archive, List<Archive<?>> classPath,
+			Properties properties)
+		throws Exception;
 
 	public Manifest getManifest(JavaArchive javaArchive) throws IOException;
 
