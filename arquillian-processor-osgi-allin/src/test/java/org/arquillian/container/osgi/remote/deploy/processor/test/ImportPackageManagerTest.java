@@ -14,98 +14,173 @@
 
 package org.arquillian.container.osgi.remote.deploy.processor.test;
 
+import aQute.bnd.header.Attrs;
+import aQute.bnd.osgi.Analyzer;
+import aQute.bnd.osgi.Descriptors;
+import aQute.bnd.osgi.Packages;
+
 import com.liferay.arquillian.container.osgi.remote.processor.service.ImportPackageManager;
 import com.liferay.arquillian.container.osgi.remote.processor.service.ImportPackageManagerImpl;
-import com.liferay.arquillian.container.osgi.remote.processor.service.ManifestManager;
-import com.liferay.arquillian.container.osgi.remote.processor.service.ManifestManagerImpl;
 
+import java.io.File;
 import java.io.IOException;
 
-import java.lang.reflect.Field;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.jar.Attributes;
-import java.util.jar.Manifest;
+import java.util.Map;
+import java.util.Properties;
+import java.util.UUID;
 
-import org.arquillian.container.osgi.remote.deploy.processor.test.mock.DummyInstanceProducerImpl;
 import org.arquillian.container.osgi.remote.deploy.processor.test.util.ManifestUtil;
 
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.exporter.ZipExporter;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
+
+import org.osgi.framework.Constants;
 
 /**
  * @author Cristina González
  */
 public class ImportPackageManagerTest {
 
-	@Before
-	public void setUp() throws IllegalAccessException, NoSuchFieldException {
-		initImportPackageManager();
-	}
-
 	@Test
 	public void testCleanRepeatedImportsWithoutRepeatedImports()
-		throws IOException {
+		throws Exception {
 
 		//given:
 
 		JavaArchive javaArchive = createJavaArchive();
 
-		List<String> imports = new ArrayList<>();
-		imports.add("dummy.package");
-
-		ManifestUtil.createManifest(javaArchive, imports);
-
-		Manifest manifest = _manifestManager.getManifest(javaArchive);
+		ManifestUtil.createManifest(javaArchive);
 
 		List<Archive<?>> archives = new ArrayList<>();
+
 		archives.add(javaArchive);
 
-		//when:
-		Manifest actualManifest = _importPackageManager.cleanRepeatedImports(
-			manifest, archives);
+		Analyzer analyzer = new Analyzer();
 
-		Attributes mainAttributes = actualManifest.getMainAttributes();
+		try {
+			List<File> files = new ArrayList<>();
 
-		//then:
-		Assert.assertEquals(
-			"dummy.package", mainAttributes.get(
-				new Attributes.Name("Import-Package")));
+			File archiveFile = getFileFromArchive(javaArchive);
+
+			files.add(archiveFile);
+
+			analyzer.setJar(archiveFile);
+
+			Properties properties = new Properties();
+
+			properties.setProperty(Constants.IMPORT_PACKAGE, "*,dummy.package");
+
+			analyzer.setProperties(properties);
+
+			for (Archive<?> classPathArchive : archives) {
+				File classPathFile = getFileFromArchive(classPathArchive);
+
+				analyzer.addClasspath(classPathFile);
+
+				files.add(archiveFile);
+			}
+
+			analyzer.analyze();
+
+			//when:
+			_importPackageManager.cleanImports(
+				analyzer.getImports(), analyzer.getClasspathExports());
+
+			//then:
+			Packages importsPackages = analyzer.getImports();
+
+			int cont = countPaths(importsPackages, "dummy/package");
+
+			Assert.assertEquals(1, cont);
+
+			for (File file : files) {
+				Files.deleteIfExists(Paths.get(file.toURI()));
+			}
+		}
+		finally {
+			analyzer.close();
+		}
 	}
 
 	@Test
-	public void testCleanRepeatedImportsWithRepeatedImports()
-		throws IOException {
-
+	public void testCleanRepeatedImportsWithRepeatedImports() throws Exception {
 		//given:
 
 		JavaArchive javaArchive = createJavaArchive();
 
-		List<String> imports = new ArrayList<>();
-		imports.add(ImportPackageManagerTest.class.getPackage().getName());
-
-		ManifestUtil.createManifest(javaArchive, imports);
-
-		Manifest manifest = _manifestManager.getManifest(javaArchive);
+		ManifestUtil.createManifest(javaArchive);
 
 		List<Archive<?>> archives = new ArrayList<>();
 		archives.add(javaArchive);
 
-		//when:
-		Manifest actualManifest = _importPackageManager.cleanRepeatedImports(
-			manifest, archives);
+		Analyzer analyzer = new Analyzer();
 
-		Attributes mainAttributes = actualManifest.getMainAttributes();
+		try {
+			List<File> files = new ArrayList<>();
 
-		//then:
-		Assert.assertEquals(
-			"", mainAttributes.get(new Attributes.Name("Import-Package")));
+			File archiveFile = getFileFromArchive(javaArchive);
+
+			files.add(archiveFile);
+
+			analyzer.setJar(archiveFile);
+
+			Properties properties = new Properties();
+
+			properties.setProperty(
+				Constants.IMPORT_PACKAGE,
+				"*,dummy.package,another.package,*,dummy.package");
+
+			analyzer.setProperties(properties);
+
+			for (Archive<?> classPathArchive : archives) {
+				File classPathFile = getFileFromArchive(classPathArchive);
+
+				analyzer.addClasspath(classPathFile);
+
+				files.add(archiveFile);
+			}
+
+			analyzer.analyze();
+
+			//when:
+			_importPackageManager.cleanImports(
+				analyzer.getImports(), analyzer.getClasspathExports());
+
+			//then:
+			Packages importsPackages = analyzer.getImports();
+
+			int cont = countPaths(importsPackages, "dummy/package");
+
+			Assert.assertEquals(1, cont);
+
+			for (File file : files) {
+				Files.deleteIfExists(Paths.get(file.toURI()));
+			}
+		}
+		finally {
+			analyzer.close();
+		}
+	}
+
+	protected static File getFileFromArchive(Archive<?> archive)
+		throws Exception {
+
+		File archiveFile = File.createTempFile(
+			archive.getName() + UUID.randomUUID(), ".jar");
+
+		archive.as(ZipExporter.class).exportTo(archiveFile, true);
+
+		return archiveFile;
 	}
 
 	private JavaArchive createJavaArchive() {
@@ -124,26 +199,26 @@ public class ImportPackageManagerTest {
 		return javaArchive;
 	}
 
-	private void initImportPackageManager()
-		throws IllegalAccessException, NoSuchFieldException {
+	private int countPaths(Packages importsPackages, String needle) {
+		int cont = 0;
 
-		Field manifestManagerInstance =
-			ImportPackageManagerImpl.class.getDeclaredField(
-				"_manifestManagerInstance");
-		manifestManagerInstance.setAccessible(true);
+		for (
+			Map.Entry<Descriptors.PackageRef, Attrs> packageRefAttrsEntry :
+			importsPackages.entrySet()) {
 
-		DummyInstanceProducerImpl manifestManagerDummyInstance =
-			new DummyInstanceProducerImpl();
+			Descriptors.PackageRef packageRef = packageRefAttrsEntry.getKey();
 
-		manifestManagerDummyInstance.set(new ManifestManagerImpl());
+			String path = packageRef.getPath();
 
-		manifestManagerInstance.set(
-			_importPackageManager, manifestManagerDummyInstance);
+			if (path.equals(needle)) {
+				cont++;
+			}
+		}
+
+		return cont;
 	}
 
 	private static final ImportPackageManager _importPackageManager =
 		new ImportPackageManagerImpl();
-	private static final ManifestManager _manifestManager =
-		new ManifestManagerImpl();
 
 }

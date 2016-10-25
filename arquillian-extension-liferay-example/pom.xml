@@ -10,15 +10,15 @@
 
 	<groupId>com.liferay.arquillian</groupId>
 	<artifactId>com.liferay.arquillian.arquillian-liferay-extension-example</artifactId>
-	<version>1.0.4</version>
 	<name>Arquillian Liferay Extension Example</name>
 	<description>Arquillian Liferay Extension Example</description>
 
 	<properties>
 		<test.resources>src/test/resources</test.resources>
 		<arquillian.liferay.bundle>${project.basedir}/../arquillian-liferay-bundle</arquillian.liferay.bundle>
-		<liferay.home>${arquillian.liferay.bundle}/liferay-portal-7.0-ce-b8</liferay.home>
-		<url.liferay><![CDATA[http://downloads.sourceforge.net/project/lportal/Liferay%20Portal/7.0.0%20B8/liferay-portal-tomcat-7.0-ce-b8-20160223094645600.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Flportal%2Ffiles%2FLiferay%2520Portal%2F7.0.0%2520B8%2F&ts=1456902865&use_mirror=netix]]></url.liferay>
+		<liferay.home>${arquillian.liferay.bundle}/liferay-portal-7.0-ce-ga1</liferay.home>
+		<liferay.server>${liferay.home}/tomcat-8.0.32</liferay.server>
+		<url.liferay><![CDATA[http://downloads.sourceforge.net/project/lportal/Liferay%20Portal/7.0.0%20GA1/liferay-portal-tomcat-7.0-ce-ga1-20160331161017956.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Flportal%2Ffiles%2FLiferay%2520Portal%2F7.0.0%2520GA1%2F&ts=1461231989&use_mirror=vorboss]]></url.liferay>
 		<browser>phantomjs</browser>
 	</properties>
 
@@ -65,7 +65,7 @@
 								<configuration>
 									<target>
 										<echo message="unzip Liferay" />
-										<chmod dir="${liferay.home}/tomcat-8.0.30/bin/" perm="ugo+rx" includes="**/*.sh" />
+										<chmod dir="${liferay.server}/bin/" perm="ugo+rx" includes="**/*.sh" />
 									</target>
 								</configuration>
 								<goals>
@@ -109,8 +109,8 @@
 				</os>
 			</activation>
 			<properties>
-				<liferay.executable.start>${liferay.home}/tomcat-8.0.30/bin/startup.bat</liferay.executable.start>
-				<liferay.executable.stop>${liferay.home}/tomcat-8.0.30/bin/shutdown.bat</liferay.executable.stop>
+				<liferay.executable.start>${liferay.server}/bin/startup.bat</liferay.executable.start>
+				<liferay.executable.stop>${liferay.server}/bin/shutdown.bat</liferay.executable.stop>
 			</properties>
 		</profile>
 		<profile>
@@ -121,8 +121,8 @@
 				</os>
 			</activation>
 			<properties>
-				<liferay.executable.start>${liferay.home}/tomcat-8.0.30/bin/startup.sh</liferay.executable.start>
-				<liferay.executable.stop>${liferay.home}/tomcat-8.0.30/bin/shutdown.sh</liferay.executable.stop>
+				<liferay.executable.start>${liferay.server}/bin/startup.sh</liferay.executable.start>
+				<liferay.executable.stop>${liferay.server}/bin/shutdown.sh</liferay.executable.stop>
 			</properties>
 		</profile>
 		<profile>
@@ -218,31 +218,31 @@
 		<dependency>
 			<groupId>com.liferay.portal</groupId>
 			<artifactId>com.liferay.portal.kernel</artifactId>
-			<version>2.0.0</version>
+			<version>2.3.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.liferay.portal</groupId>
 			<artifactId>com.liferay.util.bridges</artifactId>
-			<version>1.0.0</version>
+			<version>2.0.1</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.liferay.portal</groupId>
 			<artifactId>com.liferay.util.taglib</artifactId>
-			<version>1.0.0</version>
+			<version>2.1.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.liferay.portal</groupId>
 			<artifactId>com.liferay.util.java</artifactId>
-			<version>1.0.0</version>
+			<version>2.0.1</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.liferay.arquillian</groupId>
 			<artifactId>com.liferay.arquillian.arquillian-container-liferay</artifactId>
-			<version>1.0.0</version>
+			<version>${parent.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -335,7 +335,7 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${liferay.home}/tomcat-8.0.30/bin</outputDirectory>
+							<outputDirectory>${liferay.server}/bin</outputDirectory>
 							<resources>
 								<resource>
 									<directory>${test.resources}/tomcat</directory>

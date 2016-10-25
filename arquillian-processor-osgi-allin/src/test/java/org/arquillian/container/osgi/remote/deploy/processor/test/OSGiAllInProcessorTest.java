@@ -576,8 +576,30 @@ public class OSGiAllInProcessorTest {
 			iae.printStackTrace();
 		}
 
-		Field importPackageManagerInstance =
+		Field manifestManagerInstance =
 			OSGiAllInProcessor.class.getDeclaredField(
+				"_manifestManagerInstance");
+
+		manifestManagerInstance.setAccessible(true);
+
+		DummyInstanceProducerImpl manifestManagerDummyInstance =
+			new DummyInstanceProducerImpl();
+
+		ManifestManagerImpl manifestManager = new ManifestManagerImpl();
+
+		manifestManagerDummyInstance.set(manifestManager);
+
+		try {
+			manifestManagerInstance.set(
+				addAllExtensionsToApplicationArchiveProcessor,
+				manifestManagerDummyInstance);
+		}
+		catch (IllegalAccessException iae) {
+			iae.printStackTrace();
+		}
+
+		Field importPackageManagerInstance =
+			ManifestManagerImpl.class.getDeclaredField(
 				"_importPackageManagerInstance");
 
 		importPackageManagerInstance.setAccessible(true);
@@ -589,43 +611,7 @@ public class OSGiAllInProcessorTest {
 
 		try {
 			importPackageManagerInstance.set(
-				addAllExtensionsToApplicationArchiveProcessor,
-				importPackageManagerDummyInstance);
-		}
-		catch (IllegalAccessException iae) {
-			iae.printStackTrace();
-		}
-
-		Field manifestManagerInstance =
-			OSGiAllInProcessor.class.getDeclaredField(
-				"_manifestManagerInstance");
-
-		manifestManagerInstance.setAccessible(true);
-
-		DummyInstanceProducerImpl manifestManagerDummyInstance =
-			new DummyInstanceProducerImpl();
-
-		manifestManagerDummyInstance.set(new ManifestManagerImpl());
-
-		try {
-			manifestManagerInstance.set(
-				addAllExtensionsToApplicationArchiveProcessor,
-				manifestManagerDummyInstance);
-		}
-		catch (IllegalAccessException iae) {
-			iae.printStackTrace();
-		}
-
-		Field manifestManagerInstanceinImportPackageManager =
-			ImportPackageManagerImpl.class.getDeclaredField(
-				"_manifestManagerInstance");
-
-		manifestManagerInstanceinImportPackageManager.setAccessible(true);
-
-		try {
-			manifestManagerInstanceinImportPackageManager.set(
-				importPackageManagerDummyInstance.get(),
-				manifestManagerDummyInstance);
+				manifestManager, importPackageManagerDummyInstance);
 		}
 		catch (IllegalAccessException iae) {
 			iae.printStackTrace();

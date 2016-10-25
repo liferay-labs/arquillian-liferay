@@ -14,28 +14,10 @@
 
 package com.liferay.arquillian.container.osgi.remote.processor.service;
 
-import aQute.bnd.osgi.Jar;
+import aQute.bnd.osgi.Descriptors;
+import aQute.bnd.osgi.Packages;
 
 import java.io.IOException;
-import java.io.InputStream;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.jar.Attributes;
-import java.util.jar.Manifest;
-
-import org.jboss.arquillian.core.api.Instance;
-import org.jboss.arquillian.core.api.annotation.Inject;
-import org.jboss.shrinkwrap.api.Archive;
-import org.jboss.shrinkwrap.api.exporter.ZipExporter;
 
 /**
  * @author Cristina González
@@ -43,104 +25,36 @@ import org.jboss.shrinkwrap.api.exporter.ZipExporter;
 public class ImportPackageManagerImpl implements ImportPackageManager {
 
 	@Override
-	public Manifest cleanRepeatedImports(
-			Manifest manifest, Collection<Archive<?>> auxiliaryArchives)
+	public void cleanImports(Packages imports, Packages classpathExports)
 		throws IOException {
 
-		List<String> auxiliaryArchivesPackages = getAuxiliaryArchivesPackages(
-			auxiliaryArchives);
+		Packages importsFiltered = new Packages();
 
-		Attributes mainAttributes = manifest.getMainAttributes();
-
-		String importPackages = mainAttributes.getValue(IMPORT_PACKAGE);
-
-		mainAttributes.remove(new Attributes.Name(IMPORT_PACKAGE));
-
-		Map<String, Set<String>> importsWithDirectivesMap =
-			toImportsWithDirectivesMap(importPackages);
-
-		List<String> resultImports = new ArrayList<>();
-
-		for (String importValue : importsWithDirectivesMap.keySet()) {
-			if (auxiliaryArchivesPackages.contains(importValue)) {
-				continue;
+		for (Descriptors.PackageRef importPackage : imports.keySet()) {
+			if (classpathExports.containsKey(importPackage)) {
+				importsFiltered.put(importPackage);
 			}
-
-			StringBuilder sb = new StringBuilder();
-			sb.append(importValue);
-
-			for (String directive : importsWithDirectivesMap.get(importValue)) {
-				sb.append(";");
-				sb.append(directive);
-			}
-
-			resultImports.add(sb.toString());
 		}
 
-		ManifestManager manifestManager = _manifestManagerInstance.get();
+		//Clean imports in classpath
 
-		manifest = manifestManager.putAttributeValue(
-			manifest, IMPORT_PACKAGE,
-			resultImports.toArray(new String[resultImports.size()]));
-
-		return manifest;
-	}
-
-	private List<String> getAuxiliaryArchivesPackages(
-			Collection<Archive<?>> auxiliaryArchives)
-		throws IOException {
-
-		List<String> packages = new ArrayList<>();
-
-		for (Archive auxiliaryArchive : auxiliaryArchives) {
-			ZipExporter zipExporter = auxiliaryArchive.as(ZipExporter.class);
-
-			InputStream auxiliaryArchiveInputStream =
-				zipExporter.exportAsInputStream();
-
-			Jar jar = new Jar(
-				auxiliaryArchive.getName(), auxiliaryArchiveInputStream);
-
-			packages.addAll(jar.getPackages());
+		for (Descriptors.PackageRef packageRef : importsFiltered.keySet()) {
+			imports.remove(packageRef);
 		}
 
-		return packages;
-	}
+		importsFiltered = new Packages();
 
-	private Map<String, Set<String>> toImportsWithDirectivesMap(
-		String importsInManifest) {
-
-		List<String> packageNamesWithDirectives = Arrays.asList(
-			importsInManifest.split(","));
-
-		Map<String, Set<String>> packagesNameToDirectives = new HashMap<>();
-
-		for (String packageNameWithDirectives : packageNamesWithDirectives) {
-			LinkedList<String> packageNameAndDirectives = new LinkedList<>();
-
-			Collections.addAll(
-				packageNameAndDirectives, packageNameWithDirectives.split(";"));
-
-			String packageName = packageNameAndDirectives.pop();
-
-			Set<String> currentDirectives = packagesNameToDirectives.get(
-				packageName);
-
-			if (currentDirectives == null) {
-				currentDirectives = new HashSet<>();
+		for (Descriptors.PackageRef importPackage : imports.keySet()) {
+			if (importPackage.getPath().endsWith("~")) {
+				importsFiltered.put(importPackage);
 			}
-
-			currentDirectives.addAll(packageNameAndDirectives);
-
-			packagesNameToDirectives.put(packageName, currentDirectives);
 		}
 
-		return packagesNameToDirectives;
+		//Clean repeated imports
+
+		for (Descriptors.PackageRef packageRef : importsFiltered.keySet()) {
+			imports.remove(packageRef);
+		}
 	}
-
-	private static final String IMPORT_PACKAGE = "Import-Package";
-
-	@Inject
-	private Instance<ManifestManager> _manifestManagerInstance;
 
 }
