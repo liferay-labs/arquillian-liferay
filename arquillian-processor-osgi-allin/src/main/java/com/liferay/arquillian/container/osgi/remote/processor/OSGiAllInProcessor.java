@@ -300,7 +300,7 @@ public class OSGiAllInProcessor implements ApplicationArchiveProcessor {
 	}
 
 	private void handleOriginalBundleActivator(
-		JavaArchive javaArchive, ManifestManager manifestManager)
+			JavaArchive javaArchive, ManifestManager manifestManager)
 		throws IOException {
 
 		Manifest manifest = manifestManager.getManifest(javaArchive);
@@ -310,8 +310,7 @@ public class OSGiAllInProcessor implements ApplicationArchiveProcessor {
 		Attributes.Name bundleActivatorName = new Attributes.Name(
 			"Bundle-Activator");
 
-		String bundleActivator = mainAttributes.getValue(
-			bundleActivatorName);
+		String bundleActivator = mainAttributes.getValue(bundleActivatorName);
 
 		mainAttributes.put(
 			bundleActivatorName,
