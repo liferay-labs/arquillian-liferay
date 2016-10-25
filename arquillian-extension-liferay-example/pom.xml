@@ -4,7 +4,7 @@
 <parent>
 	<artifactId>com.liferay.arquillian.arquillian-extension-liferay</artifactId>
 	<groupId>com.liferay.arquillian</groupId>
-	<version>1.0.4</version>
+	<version>1.0.5</version>
 	<relativePath>../pom.xml</relativePath>
 </parent>
 
