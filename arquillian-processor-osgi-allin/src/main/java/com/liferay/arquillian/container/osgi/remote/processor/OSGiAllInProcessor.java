@@ -102,27 +102,7 @@ public class OSGiAllInProcessor implements ApplicationArchiveProcessor {
 
 			properties.setProperty(Constants.IMPORT_PACKAGE, importPackages);
 
-			manifest = manifestManager.getManifest(javaArchive);
-
-			mainAttributes = manifest.getMainAttributes();
-
-			Attributes.Name bundleActivatorName = new Attributes.Name(
-				"Bundle-Activator");
-
-			String bundleActivator = mainAttributes.getValue(
-				bundleActivatorName);
-
-			mainAttributes.put(
-				bundleActivatorName,
-				ArquillianBundleActivator.class.getCanonicalName());
-
-			manifestManager.replaceManifest(javaArchive, manifest);
-
-			javaArchive.addClass(ArquillianBundleActivator.class);
-
-			if (bundleActivator != null) {
-				addBundleActivator(javaArchive, bundleActivator);
-			}
+			handleOriginalBundleActivator(javaArchive, manifestManager);
 
 			manifestManager.generateManifest(
 				javaArchive, extensionArchives, properties);
@@ -317,6 +297,33 @@ public class OSGiAllInProcessor implements ApplicationArchiveProcessor {
 		}
 
 		return sb.toString();
+	}
+
+	private void handleOriginalBundleActivator(
+		JavaArchive javaArchive, ManifestManager manifestManager)
+		throws IOException {
+
+		Manifest manifest = manifestManager.getManifest(javaArchive);
+
+		Attributes mainAttributes = manifest.getMainAttributes();
+
+		Attributes.Name bundleActivatorName = new Attributes.Name(
+			"Bundle-Activator");
+
+		String bundleActivator = mainAttributes.getValue(
+			bundleActivatorName);
+
+		mainAttributes.put(
+			bundleActivatorName,
+			ArquillianBundleActivator.class.getCanonicalName());
+
+		manifestManager.replaceManifest(javaArchive, manifest);
+
+		javaArchive.addClass(ArquillianBundleActivator.class);
+
+		if (bundleActivator != null) {
+			addBundleActivator(javaArchive, bundleActivator);
+		}
 	}
 
 	private List<Archive<?>> loadAuxiliaryArchives() {
