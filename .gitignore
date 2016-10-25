@@ -20,3 +20,6 @@ test-output/
 
 # JBoss AS
 transaction.log
+
+# Downloads
+arquillian-liferay-bundle
