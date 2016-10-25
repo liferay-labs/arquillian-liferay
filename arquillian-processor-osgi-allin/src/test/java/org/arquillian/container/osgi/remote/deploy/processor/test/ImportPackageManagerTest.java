@@ -52,11 +52,6 @@ import org.osgi.framework.Constants;
  */
 public class ImportPackageManagerTest {
 
-	@Before
-	public void setUp() throws IllegalAccessException, NoSuchFieldException {
-		initImportPackageManager();
-	}
-
 	@Test
 	public void testCleanRepeatedImportsWithoutRepeatedImports()
 		throws Exception {
@@ -68,6 +63,7 @@ public class ImportPackageManagerTest {
 		ManifestUtil.createManifest(javaArchive);
 
 		List<Archive<?>> archives = new ArrayList<>();
+
 		archives.add(javaArchive);
 
 		Analyzer analyzer = new Analyzer();
@@ -230,10 +226,6 @@ public class ImportPackageManagerTest {
 		}
 
 		return javaArchive;
-	}
-
-	private void initImportPackageManager()
-		throws IllegalAccessException, NoSuchFieldException {
 	}
 
 	private static final ImportPackageManager _importPackageManager =
