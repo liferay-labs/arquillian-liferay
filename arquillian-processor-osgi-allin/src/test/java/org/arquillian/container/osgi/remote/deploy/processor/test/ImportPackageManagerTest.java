@@ -138,7 +138,7 @@ public class ImportPackageManagerTest {
 
 			properties.setProperty(
 				Constants.IMPORT_PACKAGE,
-				"*,dummy.package,dummy.package");
+				"*,dummy.package,another.package,*,dummy.package");
 
 			analyzer.setProperties(properties);
 
