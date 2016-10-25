@@ -42,7 +42,6 @@ import org.jboss.shrinkwrap.api.exporter.ZipExporter;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import org.osgi.framework.Constants;
@@ -100,21 +99,7 @@ public class ImportPackageManagerTest {
 			//then:
 			Packages importsPackages = analyzer.getImports();
 
-			int cont = 0;
-
-			for (
-				Map.Entry<Descriptors.PackageRef, Attrs> packageRefAttrsEntry :
-					importsPackages.entrySet()) {
-
-				Descriptors.PackageRef packageRef =
-					packageRefAttrsEntry.getKey();
-
-				String path = packageRef.getPath();
-
-				if (path.equals("dummy/package")) {
-					cont++;
-				}
-			}
+			int cont = countPaths(importsPackages, "dummy/package");
 
 			Assert.assertEquals(1, cont);
 
@@ -174,21 +159,7 @@ public class ImportPackageManagerTest {
 			//then:
 			Packages importsPackages = analyzer.getImports();
 
-			int cont = 0;
-
-			for (
-				Map.Entry<Descriptors.PackageRef, Attrs> packageRefAttrsEntry :
-					importsPackages.entrySet()) {
-
-				Descriptors.PackageRef packageRef =
-					packageRefAttrsEntry.getKey();
-
-				String path = packageRef.getPath();
-
-				if (path.equals("dummy/package")) {
-					cont++;
-				}
-			}
+			int cont = countPaths(importsPackages, "dummy/package");
 
 			Assert.assertEquals(1, cont);
 
@@ -226,6 +197,25 @@ public class ImportPackageManagerTest {
 		}
 
 		return javaArchive;
+	}
+
+	private int countPaths(Packages importsPackages, String needle) {
+		int cont = 0;
+
+		for (
+			Map.Entry<Descriptors.PackageRef, Attrs> packageRefAttrsEntry :
+			importsPackages.entrySet()) {
+
+			Descriptors.PackageRef packageRef = packageRefAttrsEntry.getKey();
+
+			String path = packageRef.getPath();
+
+			if (path.equals(needle)) {
+				cont++;
+			}
+		}
+
+		return cont;
 	}
 
 	private static final ImportPackageManager _importPackageManager =
