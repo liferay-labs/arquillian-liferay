@@ -98,7 +98,7 @@ public class ManifestManagerImpl implements ManifestManager {
 			replaceManifest(archive, analyzer.calcManifest());
 
 			for (File file : files) {
-				Files.deleteIfExists(Paths.get(file.toURI()));
+				file.deleteOnExit();
 			}
 		}
 		finally {
