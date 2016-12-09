@@ -20,9 +20,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -98,7 +95,7 @@ public class ManifestManagerImpl implements ManifestManager {
 			replaceManifest(archive, analyzer.calcManifest());
 
 			for (File file : files) {
-				Files.deleteIfExists(Paths.get(file.toURI()));
+				file.deleteOnExit();
 			}
 		}
 		finally {
