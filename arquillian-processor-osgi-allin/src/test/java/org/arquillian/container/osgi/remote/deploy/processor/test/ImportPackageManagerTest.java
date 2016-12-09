@@ -104,7 +104,7 @@ public class ImportPackageManagerTest {
 			Assert.assertEquals(1, cont);
 
 			for (File file : files) {
-				Files.deleteIfExists(Paths.get(file.toURI()));
+				file.deleteOnExit();
 			}
 		}
 		finally {
@@ -164,7 +164,7 @@ public class ImportPackageManagerTest {
 			Assert.assertEquals(1, cont);
 
 			for (File file : files) {
-				Files.deleteIfExists(Paths.get(file.toURI()));
+				file.deleteOnExit();
 			}
 		}
 		finally {
