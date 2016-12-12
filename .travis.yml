@@ -15,5 +15,5 @@ after_success:
   - codecov
 
 after_failure:
-  - cat arquillian-liferay-bundle/liferay-portal-7.0-ce-b8/tomcat-8.0.30/logs/catalina.out
+  - cat arquillian-liferay-bundle/liferay-portal-7.0-ce-ga3/tomcat-8.0.30/logs/catalina.out
 

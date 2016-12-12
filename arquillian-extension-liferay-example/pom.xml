@@ -16,9 +16,9 @@
 	<properties>
 		<test.resources>src/test/resources</test.resources>
 		<arquillian.liferay.bundle>${project.basedir}/../arquillian-liferay-bundle</arquillian.liferay.bundle>
-		<liferay.home>${arquillian.liferay.bundle}/liferay-portal-7.0-ce-ga1</liferay.home>
+		<liferay.home>${arquillian.liferay.bundle}/liferay-ce-portal-7.0-ga3</liferay.home>
 		<liferay.server>${liferay.home}/tomcat-8.0.32</liferay.server>
-		<url.liferay><![CDATA[http://downloads.sourceforge.net/project/lportal/Liferay%20Portal/7.0.0%20GA1/liferay-portal-tomcat-7.0-ce-ga1-20160331161017956.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Flportal%2Ffiles%2FLiferay%2520Portal%2F7.0.0%2520GA1%2F&ts=1461231989&use_mirror=vorboss]]></url.liferay>
+		<url.liferay><![CDATA[http://downloads.sourceforge.net/project/lportal/Liferay%20Portal/7.0.2%20GA3/liferay-ce-portal-tomcat-7.0-ga3-20160804222206210.zip]]></url.liferay>
 		<browser>phantomjs</browser>
 	</properties>
 
@@ -48,7 +48,6 @@
 									<outputDirectory>${arquillian.liferay.bundle}/</outputDirectory>
 									<outputFileName>liferay.zip</outputFileName>
 									<overwrite>true</overwrite>
-									<cacheDirectory>${arquillian.liferay.bundle}/cache/</cacheDirectory>
 									<unpack>true</unpack>
 								</configuration>
 							</execution>
