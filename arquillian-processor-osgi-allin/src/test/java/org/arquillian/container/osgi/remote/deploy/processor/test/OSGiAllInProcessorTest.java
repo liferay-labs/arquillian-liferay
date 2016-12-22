@@ -59,21 +59,21 @@ public class OSGiAllInProcessorTest {
 	@Test
 	public void testGenerateDeployment() throws Exception {
 		//given:
-		JavaArchive javaArchive = getJavaArchive();
+		JavaArchive javaArchive = _getJavaArchive();
 
-		javaArchive.addClass(this.getClass());
+		javaArchive.addClass(getClass());
 
 		ManifestUtil.createManifest(javaArchive);
 
-		TestClass testClass = new TestClass(this.getClass());
+		TestClass testClass = new TestClass(getClass());
 
 		//when:
-		OSGiAllInProcessor processor = getProcessorWithoutAuxiliaryArchive();
+		OSGiAllInProcessor processor = _getProcessorWithoutAuxiliaryArchive();
 
 		processor.process(javaArchive, testClass);
 
 		//then:
-		Manifest manifest = getManifest(javaArchive);
+		Manifest manifest = _getManifest(javaArchive);
 
 		Attributes mainAttributes = manifest.getMainAttributes();
 
@@ -90,16 +90,16 @@ public class OSGiAllInProcessorTest {
 	@Test
 	public void testGenerateDeploymentFromNonOSGiBundle() throws Exception {
 		//given:
-		JavaArchive javaArchive = getJavaArchive();
+		JavaArchive javaArchive = _getJavaArchive();
 
-		javaArchive.addClass(this.getClass());
+		javaArchive.addClass(getClass());
 
-		TestClass testClass = new TestClass(this.getClass());
+		TestClass testClass = new TestClass(getClass());
 
 		try {
 			//when:
 			OSGiAllInProcessor processor =
-				getProcessorWithoutAuxiliaryArchive();
+				_getProcessorWithoutAuxiliaryArchive();
 
 			processor.process(javaArchive, testClass);
 
@@ -118,21 +118,21 @@ public class OSGiAllInProcessorTest {
 		throws Exception {
 
 		//given:
-		JavaArchive javaArchive = getJavaArchive();
+		JavaArchive javaArchive = _getJavaArchive();
 
-		javaArchive.addClass(this.getClass());
+		javaArchive.addClass(getClass());
 
 		ManifestUtil.createManifest(javaArchive);
 
-		TestClass testClass = new TestClass(this.getClass());
+		TestClass testClass = new TestClass(getClass());
 
 		//when:
-		OSGiAllInProcessor processor = getProcessorWithoutAuxiliaryArchive();
+		OSGiAllInProcessor processor = _getProcessorWithoutAuxiliaryArchive();
 
 		processor.process(javaArchive, testClass);
 
 		//then:
-		Manifest manifest = getManifest(javaArchive);
+		Manifest manifest = _getManifest(javaArchive);
 
 		Attributes mainAttributes = manifest.getMainAttributes();
 
@@ -154,19 +154,19 @@ public class OSGiAllInProcessorTest {
 		throws Exception {
 
 		//given:
-		JavaArchive javaArchive = getJavaArchive();
+		JavaArchive javaArchive = _getJavaArchive();
 
-		javaArchive.addClass(this.getClass());
+		javaArchive.addClass(getClass());
 
 		String activator = "com.liferay.arquillian.activator.DummyActivator";
 
 		ManifestUtil.createManifest(
 			javaArchive, new ArrayList<String>(), activator);
 
-		TestClass testClass = new TestClass(this.getClass());
+		TestClass testClass = new TestClass(getClass());
 
 		//when:
-		OSGiAllInProcessor processor = getProcessorWithoutAuxiliaryArchive();
+		OSGiAllInProcessor processor = _getProcessorWithoutAuxiliaryArchive();
 
 		processor.process(javaArchive, testClass);
 
@@ -204,19 +204,19 @@ public class OSGiAllInProcessorTest {
 		throws Exception {
 
 		//given:
-		JavaArchive javaArchive = getJavaArchive();
+		JavaArchive javaArchive = _getJavaArchive();
 
-		javaArchive.addClass(this.getClass());
+		javaArchive.addClass(getClass());
 
 		ManifestUtil.createManifest(javaArchive);
 
-		TestClass testClass = new TestClass(this.getClass());
+		TestClass testClass = new TestClass(getClass());
 
 		String activator = "activator";
 
 		//when:
 		OSGiAllInProcessor processor =
-			getProcessorWithOSGIJarAuxiliaryArchiveWithActivator(activator);
+			_getProcessorWithOSGIJarAuxiliaryArchiveWithActivator(activator);
 
 		processor.process(javaArchive, testClass);
 
@@ -254,13 +254,13 @@ public class OSGiAllInProcessorTest {
 		throws Exception {
 
 		//given:
-		JavaArchive javaArchive = getJavaArchive();
+		JavaArchive javaArchive = _getJavaArchive();
 
-		javaArchive.addClass(this.getClass());
+		javaArchive.addClass(getClass());
 
 		ManifestUtil.createManifest(javaArchive);
 
-		TestClass testClass = new TestClass(this.getClass());
+		TestClass testClass = new TestClass(getClass());
 
 		List<String> imports = new ArrayList<>();
 
@@ -268,13 +268,13 @@ public class OSGiAllInProcessorTest {
 		imports.add("import.example.2");
 
 		//when:
-		OSGiAllInProcessor processor = getProcessorWithOSGIJarAuxiliaryArchive(
+		OSGiAllInProcessor processor = _getProcessorWithOSGIJarAuxiliaryArchive(
 			imports);
 
 		processor.process(javaArchive, testClass);
 
 		//then:
-		Manifest manifest = getManifest(javaArchive);
+		Manifest manifest = _getManifest(javaArchive);
 
 		Attributes mainAttributes = manifest.getMainAttributes();
 
@@ -295,30 +295,32 @@ public class OSGiAllInProcessorTest {
 		throws Exception {
 
 		//given:
-		JavaArchive javaArchive = getJavaArchive();
+		JavaArchive javaArchive = _getJavaArchive();
 
-		javaArchive.addClass(this.getClass());
+		javaArchive.addClass(getClass());
 
 		ManifestUtil.createManifest(javaArchive);
 
-		TestClass testClass = new TestClass(this.getClass());
+		TestClass testClass = new TestClass(getClass());
 
 		List<String> imports = new ArrayList<>();
 
-		String importValueNoOptional = "import.example.1";
 		String importValueOptional = "import.example.1;resolution=optional";
 
 		imports.add(importValueOptional);
+
+		String importValueNoOptional = "import.example.1";
+
 		imports.add(importValueNoOptional);
 
 		//when:
-		OSGiAllInProcessor processor = getProcessorWithOSGIJarAuxiliaryArchive(
+		OSGiAllInProcessor processor = _getProcessorWithOSGIJarAuxiliaryArchive(
 			imports);
 
 		processor.process(javaArchive, testClass);
 
 		//then:
-		Manifest manifest = getManifest(javaArchive);
+		Manifest manifest = _getManifest(javaArchive);
 
 		Attributes mainAttributes = manifest.getMainAttributes();
 
@@ -345,13 +347,13 @@ public class OSGiAllInProcessorTest {
 		throws Exception {
 
 		//given:
-		JavaArchive javaArchive = getJavaArchive();
+		JavaArchive javaArchive = _getJavaArchive();
 
-		javaArchive.addClass(this.getClass());
+		javaArchive.addClass(getClass());
 
 		ManifestUtil.createManifest(javaArchive);
 
-		TestClass testClass = new TestClass(this.getClass());
+		TestClass testClass = new TestClass(getClass());
 
 		List<String> imports = new ArrayList<>();
 
@@ -359,13 +361,13 @@ public class OSGiAllInProcessorTest {
 		imports.add("import.example.2");
 
 		//when:
-		OSGiAllInProcessor processor = getProcessorWithOSGIJarAuxiliaryArchive(
+		OSGiAllInProcessor processor = _getProcessorWithOSGIJarAuxiliaryArchive(
 			imports);
 
 		processor.process(javaArchive, testClass);
 
 		//then:
-		Manifest manifest = getManifest(javaArchive);
+		Manifest manifest = _getManifest(javaArchive);
 
 		Attributes mainAttributes = manifest.getMainAttributes();
 
@@ -390,21 +392,21 @@ public class OSGiAllInProcessorTest {
 		throws Exception {
 
 		//given:
-		JavaArchive javaArchive = getJavaArchive();
+		JavaArchive javaArchive = _getJavaArchive();
 
-		javaArchive.addClass(this.getClass());
+		javaArchive.addClass(getClass());
 
 		ManifestUtil.createManifest(javaArchive);
 
-		TestClass testClass = new TestClass(this.getClass());
+		TestClass testClass = new TestClass(getClass());
 
 		//when:
-		OSGiAllInProcessor processor = getProcessorWithJarAuxiliaryArchive();
+		OSGiAllInProcessor processor = _getProcessorWithJarAuxiliaryArchive();
 
 		processor.process(javaArchive, testClass);
 
 		//then:
-		Manifest manifest = getManifest(javaArchive);
+		Manifest manifest = _getManifest(javaArchive);
 
 		Attributes mainAttributes = manifest.getMainAttributes();
 
@@ -433,13 +435,13 @@ public class OSGiAllInProcessorTest {
 		throws Exception {
 
 		//given:
-		JavaArchive javaArchive = getJavaArchive();
+		JavaArchive javaArchive = _getJavaArchive();
 
-		javaArchive.addClass(this.getClass());
+		javaArchive.addClass(getClass());
 
 		ManifestUtil.createManifest(javaArchive);
 
-		TestClass testClass = new TestClass(this.getClass());
+		TestClass testClass = new TestClass(getClass());
 
 		List<String> imports = new ArrayList<>();
 
@@ -447,13 +449,13 @@ public class OSGiAllInProcessorTest {
 		imports.add("import.example.2");
 
 		//when:
-		OSGiAllInProcessor processor = getProcessorWithOSGIJarAuxiliaryArchive(
+		OSGiAllInProcessor processor = _getProcessorWithOSGIJarAuxiliaryArchive(
 			imports);
 
 		processor.process(javaArchive, testClass);
 
 		//then:
-		Manifest manifest = getManifest(javaArchive);
+		Manifest manifest = _getManifest(javaArchive);
 
 		Attributes mainAttributes = manifest.getMainAttributes();
 
@@ -480,16 +482,16 @@ public class OSGiAllInProcessorTest {
 	@Test
 	public void testGenerateDeploymentWithoutActivator() throws Exception {
 		//given:
-		JavaArchive javaArchive = getJavaArchive();
+		JavaArchive javaArchive = _getJavaArchive();
 
-		javaArchive.addClass(this.getClass());
+		javaArchive.addClass(getClass());
 
 		ManifestUtil.createManifest(javaArchive, new ArrayList<String>());
 
-		TestClass testClass = new TestClass(this.getClass());
+		TestClass testClass = new TestClass(getClass());
 
 		//when:
-		OSGiAllInProcessor processor = getProcessorWithoutAuxiliaryArchive();
+		OSGiAllInProcessor processor = _getProcessorWithoutAuxiliaryArchive();
 
 		processor.process(javaArchive, testClass);
 
@@ -504,21 +506,21 @@ public class OSGiAllInProcessorTest {
 	@Test
 	public void testGenerateDeploymentWithoutExtensions() throws Exception {
 		//given:
-		JavaArchive javaArchive = getJavaArchive();
+		JavaArchive javaArchive = _getJavaArchive();
 
-		javaArchive.addClass(this.getClass());
+		javaArchive.addClass(getClass());
 
 		ManifestUtil.createManifest(javaArchive);
 
-		TestClass testClass = new TestClass(this.getClass());
+		TestClass testClass = new TestClass(getClass());
 
 		//when:
-		OSGiAllInProcessor processor = getProcessorWithoutAuxiliaryArchive();
+		OSGiAllInProcessor processor = _getProcessorWithoutAuxiliaryArchive();
 
 		processor.process(javaArchive, testClass);
 
 		//then:
-		Manifest manifest = getManifest(javaArchive);
+		Manifest manifest = _getManifest(javaArchive);
 
 		Attributes mainAttributes = manifest.getMainAttributes();
 
@@ -530,14 +532,14 @@ public class OSGiAllInProcessorTest {
 			bundleClassPathValue);
 	}
 
-	private JavaArchive getJavaArchive() {
+	private JavaArchive _getJavaArchive() {
 		JavaArchive javaArchive = ShrinkWrap.create(
 			JavaArchive.class, "arquillian-osgi-liferay-test.jar");
 
 		return javaArchive;
 	}
 
-	private Manifest getManifest(JavaArchive javaArchive) throws IOException {
+	private Manifest _getManifest(JavaArchive javaArchive) throws IOException {
 		Node manifestNode = javaArchive.get(JarFile.MANIFEST_NAME);
 
 		Assert.assertNotNull(
@@ -553,7 +555,7 @@ public class OSGiAllInProcessorTest {
 		return new Manifest(manifestAsset.openStream());
 	}
 
-	private OSGiAllInProcessor getProcessor(ServiceLoader serviceLoader)
+	private OSGiAllInProcessor _getProcessor(ServiceLoader serviceLoader)
 		throws NoSuchFieldException {
 
 		OSGiAllInProcessor addAllExtensionsToApplicationArchiveProcessor =
@@ -643,34 +645,34 @@ public class OSGiAllInProcessorTest {
 		return addAllExtensionsToApplicationArchiveProcessor;
 	}
 
-	private OSGiAllInProcessor getProcessorWithJarAuxiliaryArchive()
+	private OSGiAllInProcessor _getProcessorWithJarAuxiliaryArchive()
 		throws IllegalAccessException, NoSuchFieldException {
 
-		return getProcessor(new DummyServiceLoaderWithJarAuxiliaryArchive());
+		return _getProcessor(new DummyServiceLoaderWithJarAuxiliaryArchive());
 	}
 
 	private OSGiAllInProcessor
-			getProcessorWithOSGIJarAuxiliaryArchive(List<String> imports)
+			_getProcessorWithOSGIJarAuxiliaryArchive(List<String> imports)
 		throws IllegalAccessException, NoSuchFieldException {
 
-		return getProcessor(
+		return _getProcessor(
 			new DummyServiceLoaderWithOSGIBundleAuxiliaryArchive(imports));
 	}
 
 	private OSGiAllInProcessor
-			getProcessorWithOSGIJarAuxiliaryArchiveWithActivator(
+			_getProcessorWithOSGIJarAuxiliaryArchiveWithActivator(
 				String activator)
 		throws IllegalAccessException, NoSuchFieldException {
 
-		return getProcessor(
+		return _getProcessor(
 			new DummyServiceLoaderWithOSGIBundleAuxiliaryArchiveWithActivator(
 				activator));
 	}
 
-	private OSGiAllInProcessor getProcessorWithoutAuxiliaryArchive()
+	private OSGiAllInProcessor _getProcessorWithoutAuxiliaryArchive()
 		throws IllegalAccessException, NoSuchFieldException {
 
-		return getProcessor(new DummyServiceLoaderWithoutAuxiliaryArchive());
+		return _getProcessor(new DummyServiceLoaderWithoutAuxiliaryArchive());
 	}
 
 	private static final String _ACTIVATORS_FILE =

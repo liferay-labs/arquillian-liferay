@@ -144,7 +144,7 @@ public class PortalURLServlet extends HttpServlet {
 				layout.getGroupId(), layout.isPrivateLayout(),
 				layout.getLayoutId(), layout.getTypeSettings());
 
-			response.sendRedirect("/"+uuid.toString());
+			response.sendRedirect("/" + uuid.toString());
 		}
 		catch (PortalException pe) {
 			_logger.log(Level.SEVERE, pe.getMessage(), pe);

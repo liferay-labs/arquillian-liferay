@@ -62,51 +62,51 @@ public class BasicPortletFunctionalTest {
 
 	@Test
 	public void testAdd() throws IOException, PortalException {
-		browser.get(_portlerURL.toExternalForm());
+		_browser.get(_portlerURL.toExternalForm());
 
-		firstParamter.clear();
+		_firstParamter.clear();
 
-		firstParamter.sendKeys("2");
+		_firstParamter.sendKeys("2");
 
-		secondParameter.clear();
+		_secondParameter.clear();
 
-		secondParameter.sendKeys("3");
+		_secondParameter.sendKeys("3");
 
-		add.click();
+		_add.click();
 
-		Assert.assertEquals("5", result.getText());
+		Assert.assertEquals("5", _result.getText());
 	}
 
 	@Test
 	public void testInstallPortlet() throws IOException, PortalException {
-		browser.get(_portlerURL.toExternalForm());
+		_browser.get(_portlerURL.toExternalForm());
 
-		String bodyText = browser.findElement(By.tagName("body")).getText();
+		String bodyText = _browser.findElement(By.tagName("body")).getText();
 
 		Assert.assertTrue(
 			"The portlet is not well deployed",
 			bodyText.contains("Sample Portlet is working!"));
 	}
 
+	@FindBy(css = "button[type=submit]")
+	private WebElement _add;
+
+	@Drone
+	private WebDriver _browser;
+
+	@FindBy(css = "input[id$='firstParameter']")
+	private WebElement _firstParamter;
+
 	@PortalURL("arquillian_sample_portlet")
 	private URL _portlerURL;
+
+	@FindBy(css = "span[class='result']")
+	private WebElement _result;
 
 	@Inject
 	private SampleService _sampleService;
 
-	@FindBy(css = "button[type=submit]")
-	private WebElement add;
-
-	@Drone
-	private WebDriver browser;
-
-	@FindBy(css = "input[id$='firstParameter']")
-	private WebElement firstParamter;
-
-	@FindBy(css = "span[class='result']")
-	private WebElement result;
-
 	@FindBy(css = "input[id$='secondParameter']")
-	private WebElement secondParameter;
+	private WebElement _secondParameter;
 
 }

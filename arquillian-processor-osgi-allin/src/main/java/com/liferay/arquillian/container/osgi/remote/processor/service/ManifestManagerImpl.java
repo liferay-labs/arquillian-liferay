@@ -46,6 +46,7 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
  */
 public class ManifestManagerImpl implements ManifestManager {
 
+	@Override
 	public void generateManifest(
 			JavaArchive archive, List<Archive<?>> classPath,
 			Properties properties)

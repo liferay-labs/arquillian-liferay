@@ -111,8 +111,11 @@ public class LiferayInstallDependenciesObserver {
 							_FILE_PREFIX.length() + 1);
 					}
 
-					_installBundle(
-						Paths.get(dependencyPath).toAbsolutePath().toString());
+					Path path = Paths.get(dependencyPath);
+
+					Path absolutePath = path.toAbsolutePath();
+
+					_installBundle(absolutePath.toString());
 				}
 			}
 			catch (IOException ioe) {
@@ -143,7 +146,7 @@ public class LiferayInstallDependenciesObserver {
 		long timeoutMillis = System.currentTimeMillis() + 3000;
 
 		while (System.currentTimeMillis() < timeoutMillis) {
-			if ("ACTIVE".equals(this._bundleStateMBean.getState(bundleId))) {
+			if ("ACTIVE".equals(_bundleStateMBean.getState(bundleId))) {
 				return;
 			}
 
@@ -187,8 +190,7 @@ public class LiferayInstallDependenciesObserver {
 		ConfigurableMavenResolverSystem resolverWithLocalRepoAndLiferayRepo =
 			resolverWithLocalRepo.withRemoteRepo(
 				"liferay-public",
-				"http://cdn.repository.liferay.com/" +
-					"nexus/content/groups/public",
+				"http://cdn.repository.liferay.com/nexus/content/groups/public",
 				"default");
 
 		MavenStrategyStage resolve =
@@ -220,6 +222,7 @@ public class LiferayInstallDependenciesObserver {
 
 					if (names.size() == 1) {
 						ObjectName instanceName = names.iterator().next();
+
 						return MBeanServerInvocationHandler.newProxyInstance(
 							mbeanServer, instanceName, type, false);
 					}
@@ -231,10 +234,12 @@ public class LiferayInstallDependenciesObserver {
 				_log.log(
 					Level.WARNING, "Cannot get MBean proxy for type: " + oname,
 					lastException);
+
 				throw new TimeoutException();
 			}
 
 		};
+
 		ExecutorService executor = Executors.newSingleThreadExecutor();
 
 		Future<U> future = executor.submit(callable);
@@ -329,7 +334,7 @@ public class LiferayInstallDependenciesObserver {
 					"plugin_statistics,name=PluginsManager");
 
 			_pluginsManagerMBean = _getMBeanProxy(
-				mbeanServerInstance.get(), oname, PluginMBeanManager.class, 30,
+				_mbeanServerInstance.get(), oname, PluginMBeanManager.class, 30,
 				TimeUnit.SECONDS);
 		}
 		catch (RuntimeException re) {
@@ -353,7 +358,7 @@ public class LiferayInstallDependenciesObserver {
 			mbeanServer = _getMBeanServerConnection(
 				configuration, 30, TimeUnit.SECONDS);
 
-			mbeanServerInstance.set(mbeanServer);
+			_mbeanServerInstance.set(mbeanServer);
 		}
 		catch (TimeoutException te) {
 			throw new LifecycleException(
@@ -365,12 +370,14 @@ public class LiferayInstallDependenciesObserver {
 			// Get the FrameworkMBean
 
 			ObjectName oname = new ObjectName("osgi.core:type=framework,*");
+
 			_frameworkMBean = _getMBeanProxy(
 				mbeanServer, oname, FrameworkMBean.class, 30, TimeUnit.SECONDS);
 
 			// Get the BundleStateMBean
 
 			oname = new ObjectName("osgi.core:type=bundleState,*");
+
 			_bundleStateMBean = _getMBeanProxy(
 				mbeanServer, oname, BundleStateMBean.class, 30,
 				TimeUnit.SECONDS);
@@ -460,10 +467,11 @@ public class LiferayInstallDependenciesObserver {
 
 	private FrameworkMBean _frameworkMBean;
 	private List<Long> _installedBundles;
-	private PluginMBeanManager _pluginsManagerMBean;
 
 	@ContainerScoped
 	@Inject
-	private InstanceProducer<MBeanServerConnection> mbeanServerInstance;
+	private InstanceProducer<MBeanServerConnection> _mbeanServerInstance;
+
+	private PluginMBeanManager _pluginsManagerMBean;
 
 }

@@ -54,7 +54,7 @@ public class ImportPackageManagerTest {
 
 		//given:
 
-		JavaArchive javaArchive = createJavaArchive();
+		JavaArchive javaArchive = _createJavaArchive();
 
 		ManifestUtil.createManifest(javaArchive);
 
@@ -96,7 +96,7 @@ public class ImportPackageManagerTest {
 			//then:
 			Packages importsPackages = analyzer.getImports();
 
-			int cont = countPaths(importsPackages, "dummy/package");
+			int cont = _countPaths(importsPackages, "dummy/package");
 
 			Assert.assertEquals(1, cont);
 
@@ -113,11 +113,12 @@ public class ImportPackageManagerTest {
 	public void testCleanRepeatedImportsWithRepeatedImports() throws Exception {
 		//given:
 
-		JavaArchive javaArchive = createJavaArchive();
+		JavaArchive javaArchive = _createJavaArchive();
 
 		ManifestUtil.createManifest(javaArchive);
 
 		List<Archive<?>> archives = new ArrayList<>();
+
 		archives.add(javaArchive);
 
 		Analyzer analyzer = new Analyzer();
@@ -156,7 +157,7 @@ public class ImportPackageManagerTest {
 			//then:
 			Packages importsPackages = analyzer.getImports();
 
-			int cont = countPaths(importsPackages, "dummy/package");
+			int cont = _countPaths(importsPackages, "dummy/package");
 
 			Assert.assertEquals(1, cont);
 
@@ -180,7 +181,7 @@ public class ImportPackageManagerTest {
 		return archiveFile;
 	}
 
-	private int countPaths(Packages importsPackages, String needle) {
+	private int _countPaths(Packages importsPackages, String needle) {
 		int cont = 0;
 
 		for (Map.Entry<Descriptors.PackageRef, Attrs> packageRefAttrsEntry :
@@ -198,7 +199,7 @@ public class ImportPackageManagerTest {
 		return cont;
 	}
 
-	private JavaArchive createJavaArchive() {
+	private JavaArchive _createJavaArchive() {
 		JavaArchive javaArchive = ShrinkWrap.create(
 			JavaArchive.class, "dummy-jar.jar");
 

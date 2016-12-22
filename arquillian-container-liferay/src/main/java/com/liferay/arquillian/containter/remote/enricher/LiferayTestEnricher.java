@@ -42,10 +42,10 @@ public class LiferayTestEnricher implements TestEnricher {
 				Inject inject = declaredField.getAnnotation(Inject.class);
 
 				if (inject.value().equals("")) {
-					injectField(declaredField, null, testCase);
+					_injectField(declaredField, null, testCase);
 				}
 				else {
-					injectField(declaredField, inject.value(), testCase);
+					_injectField(declaredField, inject.value(), testCase);
 				}
 			}
 		}
@@ -78,11 +78,11 @@ public class LiferayTestEnricher implements TestEnricher {
 
 			if (injectAnnotation != null) {
 				if (injectAnnotation.value().equals("")) {
-					parameters[i] = resolve(
+					parameters[i] = _resolve(
 						parameterTypes[i], null, method.getDeclaringClass());
 				}
 				else {
-					parameters[i] = resolve(
+					parameters[i] = _resolve(
 						parameterTypes[i], injectAnnotation.value(),
 						method.getDeclaringClass());
 				}
@@ -92,7 +92,7 @@ public class LiferayTestEnricher implements TestEnricher {
 		return parameters;
 	}
 
-	private Bundle getBundle(Class<?> testCaseClass) {
+	private Bundle _getBundle(Class<?> testCaseClass) {
 		ClassLoader classLoader = testCaseClass.getClassLoader();
 
 		if (classLoader instanceof BundleReference) {
@@ -102,21 +102,21 @@ public class LiferayTestEnricher implements TestEnricher {
 		throw new RuntimeException("Test is not running inside BundleContext");
 	}
 
-	private void injectField(
+	private void _injectField(
 		Field declaredField, String filterString, Object testCase) {
 
 		Class<?> componentClass = declaredField.getType();
 
-		Object service = resolve(
+		Object service = _resolve(
 			componentClass, filterString, testCase.getClass());
 
-		setField(declaredField, testCase, service);
+		_setField(declaredField, testCase, service);
 	}
 
-	private Object resolve(
+	private Object _resolve(
 		Class<?> componentClass, String filterString, Class<?> testCaseClass) {
 
-		Bundle bundle = getBundle(testCaseClass);
+		Bundle bundle = _getBundle(testCaseClass);
 
 		BundleContext bundleContext = bundle.getBundleContext();
 
@@ -134,7 +134,7 @@ public class LiferayTestEnricher implements TestEnricher {
 		return bundleContext.getService(serviceReferences[0]);
 	}
 
-	private void setField(
+	private void _setField(
 		Field declaredField, Object testCase, Object service) {
 
 		boolean accessible = declaredField.isAccessible();
