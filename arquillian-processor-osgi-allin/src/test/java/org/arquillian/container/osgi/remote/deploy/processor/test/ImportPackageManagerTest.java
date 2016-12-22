@@ -25,9 +25,6 @@ import com.liferay.arquillian.container.osgi.remote.processor.service.ImportPack
 import java.io.File;
 import java.io.IOException;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -186,8 +183,7 @@ public class ImportPackageManagerTest {
 	private int countPaths(Packages importsPackages, String needle) {
 		int cont = 0;
 
-		for (
-			Map.Entry<Descriptors.PackageRef, Attrs> packageRefAttrsEntry :
+		for (Map.Entry<Descriptors.PackageRef, Attrs> packageRefAttrsEntry :
 				importsPackages.entrySet()) {
 
 			Descriptors.PackageRef packageRef = packageRefAttrsEntry.getKey();

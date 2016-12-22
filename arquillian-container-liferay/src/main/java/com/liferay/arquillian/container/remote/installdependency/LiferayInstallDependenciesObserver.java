@@ -184,13 +184,12 @@ public class LiferayInstallDependenciesObserver {
 				"local-m2", "file://" + userHome + "/.m2/repository",
 				"default");
 
-		ConfigurableMavenResolverSystem
-			resolverWithLocalRepoAndLiferayRepo =
-				resolverWithLocalRepo.withRemoteRepo(
-					"liferay-public",
-					"http://cdn.repository.liferay.com/" +
-						"nexus/content/groups/public",
-					"default");
+		ConfigurableMavenResolverSystem resolverWithLocalRepoAndLiferayRepo =
+			resolverWithLocalRepo.withRemoteRepo(
+				"liferay-public",
+				"http://cdn.repository.liferay.com/" +
+					"nexus/content/groups/public",
+				"default");
 
 		MavenStrategyStage resolve =
 			resolverWithLocalRepoAndLiferayRepo.resolve(mavenDependency);
@@ -237,6 +236,7 @@ public class LiferayInstallDependenciesObserver {
 
 		};
 		ExecutorService executor = Executors.newSingleThreadExecutor();
+
 		Future<U> future = executor.submit(callable);
 
 		try {
@@ -295,6 +295,7 @@ public class LiferayInstallDependenciesObserver {
 					}
 
 					TimeoutException timeoutException = new TimeoutException();
+
 					timeoutException.initCause(lastException);
 					throw timeoutException;
 				}

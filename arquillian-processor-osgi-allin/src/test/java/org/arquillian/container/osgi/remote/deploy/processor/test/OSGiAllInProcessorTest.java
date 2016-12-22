@@ -60,6 +60,7 @@ public class OSGiAllInProcessorTest {
 	public void testGenerateDeployment() throws Exception {
 		//given:
 		JavaArchive javaArchive = getJavaArchive();
+
 		javaArchive.addClass(this.getClass());
 
 		ManifestUtil.createManifest(javaArchive);
@@ -480,6 +481,7 @@ public class OSGiAllInProcessorTest {
 	public void testGenerateDeploymentWithoutActivator() throws Exception {
 		//given:
 		JavaArchive javaArchive = getJavaArchive();
+
 		javaArchive.addClass(this.getClass());
 
 		ManifestUtil.createManifest(javaArchive, new ArrayList<String>());

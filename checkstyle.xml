@@ -17,7 +17,6 @@
 	</module>
 
 	<module name="TreeWalker">
-
 		<property name="cacheFile" value="${checkstyle.cache.file}" />
 
 		<!-- Checks for imports                              -->
@@ -55,7 +54,5 @@
 		<module name="PackageAnnotation" />
 		<module name="CovariantEquals" />
 		<module name="ArrayTypeStyle" />
-
 	</module>
-
 </module>

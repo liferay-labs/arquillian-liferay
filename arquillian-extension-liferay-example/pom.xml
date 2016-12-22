@@ -65,7 +65,7 @@
 								<configuration>
 									<target>
 										<echo message="unzip Liferay" />
-										<chmod dir="${liferay.server}/bin/" perm="ugo+rx" includes="**/*.sh" />
+										<chmod dir="${liferay.server}/bin/" includes="**/*.sh" perm="ugo+rx" />
 									</target>
 								</configuration>
 								<goals>
@@ -348,5 +348,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
