@@ -24,12 +24,15 @@ import com.liferay.arquillian.container.osgi.remote.processor.service.ImportPack
 import com.liferay.arquillian.container.osgi.remote.processor.service.ImportPackageManagerImpl;
 import com.liferay.arquillian.container.osgi.remote.processor.service.ManifestManager;
 import com.liferay.arquillian.container.osgi.remote.processor.service.ManifestManagerImpl;
+import com.liferay.arquillian.container.osgi.remote.processor.service.MultiDeploymentJMXOSGiProtocol;
 
 import org.jboss.arquillian.container.test.spi.client.deployment.ApplicationArchiveProcessor;
 import org.jboss.arquillian.container.test.spi.client.deployment.AuxiliaryArchiveAppender;
+import org.jboss.arquillian.container.test.spi.client.protocol.Protocol;
 import org.jboss.arquillian.container.test.spi.command.CommandService;
 import org.jboss.arquillian.core.spi.LoadableExtension;
 import org.jboss.arquillian.protocol.jmx.JMXCommandService;
+import org.jboss.arquillian.protocol.osgi.JMXOSGiProtocol;
 
 /**
  * @author Cristina González
@@ -60,6 +63,10 @@ public class OSGiAllInBundleExtension implements LoadableExtension {
 		builder.observer(OSGiAllInBundleInstanceProducer.class);
 
 		builder.service(CommandService.class, JMXCommandService.class);
+
+		builder.override(
+			Protocol.class, JMXOSGiProtocol.class,
+			MultiDeploymentJMXOSGiProtocol.class);
 	}
 
 }
