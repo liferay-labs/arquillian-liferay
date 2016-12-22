@@ -71,14 +71,14 @@ public class ManifestManagerTest {
 		Attributes mainAttributes = actualManifest.getMainAttributes();
 
 		Assert.assertEquals(
-			mainAttributes.get(new Attributes.Name("Manifest-Version")), "1.0");
+			"1.0", mainAttributes.get(new Attributes.Name("Manifest-Version")));
 
 		Assert.assertEquals(
-			mainAttributes.get(new Attributes.Name("Bundle-Name")), "Test");
+			"Test", mainAttributes.get(new Attributes.Name("Bundle-Name")));
 
 		Assert.assertEquals(
-			mainAttributes.get(new Attributes.Name("Bundle-ManifestVersion")),
-			"1");
+			"1",
+			mainAttributes.get(new Attributes.Name("Bundle-ManifestVersion")));
 	}
 
 	@Test
@@ -101,8 +101,8 @@ public class ManifestManagerTest {
 		Attributes mainAttributes = actualManifest.getMainAttributes();
 
 		Assert.assertEquals(
-			mainAttributes.get(new Attributes.Name("Import-Package")),
-			"com.import.example");
+			"com.import.example",
+			mainAttributes.get(new Attributes.Name("Import-Package")));
 	}
 
 	@Test
@@ -196,14 +196,14 @@ public class ManifestManagerTest {
 		Attributes mainAttributes = actualManifest.getMainAttributes();
 
 		Assert.assertEquals(
-			mainAttributes.get(new Attributes.Name("Manifest-Version")), "2.0");
+			"2.0", mainAttributes.get(new Attributes.Name("Manifest-Version")));
 
 		Assert.assertEquals(
-			mainAttributes.get(new Attributes.Name("Bundle-Name")), "Test2");
+			"Test2", mainAttributes.get(new Attributes.Name("Bundle-Name")));
 
 		Assert.assertEquals(
-			mainAttributes.get(new Attributes.Name("Bundle-ManifestVersion")),
-			"2");
+			"2",
+			mainAttributes.get(new Attributes.Name("Bundle-ManifestVersion")));
 	}
 
 	private static final ManifestManager _manifestManager =

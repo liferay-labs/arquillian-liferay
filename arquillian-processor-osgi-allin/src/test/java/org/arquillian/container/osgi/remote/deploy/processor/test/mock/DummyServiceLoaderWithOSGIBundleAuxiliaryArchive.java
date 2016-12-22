@@ -75,7 +75,7 @@ public class DummyServiceLoaderWithOSGIBundleAuxiliaryArchive
 	}
 
 	@Override
-	public <T> T onlyOne(Class<T> aClass, Class < ?extends T > aClass1) {
+	public <T> T onlyOne(Class<T> aClass, Class<? extends T> aClass1) {
 		T onlyOne = super.onlyOne(aClass, aClass1);
 
 		if (onlyOne != null) {

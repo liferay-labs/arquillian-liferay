@@ -37,7 +37,7 @@ public class LiferayRemoteDeployableContainer
 		throws DeploymentException {
 
 		LiferayRemoteContainerConfiguration config =
-			_configurationInstance.get();
+			configurationInstance.get();
 
 		ProtocolMetaData protocolMetaData = super.deploy(archive);
 
@@ -55,7 +55,7 @@ public class LiferayRemoteDeployableContainer
 
 	@Override
 	public void setup(T config) {
-		_configurationInstanceProducer.set(config);
+		configurationInstanceProducer.set(config);
 
 		super.setup(config);
 	}
@@ -63,11 +63,11 @@ public class LiferayRemoteDeployableContainer
 	@ApplicationScoped
 	@Inject
 	protected Instance<LiferayRemoteContainerConfiguration>
-		_configurationInstance;
+		configurationInstance;
 
 	@ApplicationScoped
 	@Inject
 	protected InstanceProducer<LiferayRemoteContainerConfiguration>
-		_configurationInstanceProducer;
+		configurationInstanceProducer;
 
 }

@@ -34,14 +34,14 @@ public class ManifestUtil {
 	public static void createManifest(JavaArchive javaArchive)
 		throws IOException {
 
-		ManifestUtil.createManifest(javaArchive, new ArrayList<String>());
+		createManifest(javaArchive, new ArrayList<String>());
 	}
 
 	public static void createManifest(
 			JavaArchive javaArchive, List<String> imports)
 		throws IOException {
 
-		ManifestUtil.createManifest(javaArchive, imports, null);
+		createManifest(javaArchive, imports, null);
 	}
 
 	public static void createManifest(
