@@ -41,7 +41,7 @@ import org.osgi.framework.BundleContext;
  * @author Cristina González
  */
 @RunWith(Arquillian.class)
-public class TestInjections {
+public class InjectionsTest {
 
 	@Deployment
 	public static JavaArchive create() {
@@ -56,20 +56,20 @@ public class TestInjections {
 	}
 
 	@Test
-	public void shouldInjectBundle() {
+	public void testInjectBundle() {
 		Assert.assertNotNull(_bundle);
 		Assert.assertEquals(
 			"com.liferay.arquillian.sample", _bundle.getSymbolicName());
 	}
 
 	@Test
-	public void shouldInjectBundleCOntext() {
+	public void testInjectBundleContext() {
 		Assert.assertNotNull(_bundleContext);
 		Assert.assertEquals(_bundle, _bundleContext.getBundle());
 	}
 
 	@Test
-	public void shouldInjectReleaseLocalService() {
+	public void testInjectReleaseLocalService() {
 		Assert.assertNotNull(_releaseLocalService);
 
 		Release releasePortal = _releaseLocalService.fetchRelease("portal");
@@ -78,14 +78,14 @@ public class TestInjections {
 	}
 
 	@Test
-	public void shouldInjectServiceInOrden() {
+	public void testInjectServiceInOrden() {
 		Assert.assertNotNull(_service);
 
 		Assert.assertTrue(_service instanceof ServiceFirstImpl);
 	}
 
 	@Test
-	public void shouldInjectServiceWithFilter() {
+	public void testInjectServiceWithFilter() {
 		Assert.assertNotNull(_secondService);
 
 		Assert.assertTrue(_secondService instanceof ServiceSecondImpl);
