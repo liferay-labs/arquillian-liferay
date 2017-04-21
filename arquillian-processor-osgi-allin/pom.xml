@@ -51,6 +51,11 @@
 			<artifactId>arquillian-protocol-jmx</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.jboss.arquillian.protocol</groupId>
+			<artifactId>arquillian-protocol-osgi</artifactId>
+			<version>2.1.0.Final</version>
+		</dependency>
+		<dependency>
 			<groupId>org.jboss.arquillian.testenricher</groupId>
 			<artifactId>arquillian-testenricher-osgi</artifactId>
 			<version>2.1.0.CR18</version>
