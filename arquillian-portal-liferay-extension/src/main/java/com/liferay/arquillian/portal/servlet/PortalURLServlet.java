@@ -93,6 +93,7 @@ public class PortalURLServlet extends HttpServlet {
 		response.setContentType("text/html");
 
 		PrintWriter out = response.getWriter();
+
 		out.println("<h1> Portlet ID: " + portletId + "</h1>");
 
 		Company company = _companyLocalService.getCompanies().get(0);
@@ -143,7 +144,7 @@ public class PortalURLServlet extends HttpServlet {
 				layout.getGroupId(), layout.isPrivateLayout(),
 				layout.getLayoutId(), layout.getTypeSettings());
 
-			response.sendRedirect("/"+uuid.toString());
+			response.sendRedirect("/" + uuid.toString());
 		}
 		catch (PortalException pe) {
 			_logger.log(Level.SEVERE, pe.getMessage(), pe);

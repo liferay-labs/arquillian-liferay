@@ -34,15 +34,15 @@ public class LiferayRemoteContainerConfiguration
 	public static final String LIFERAY_DEFAULT_JMX_USERNAME = "";
 
 	public String getDependencyPropertyFile() {
-		return dependencyPropertyFile;
+		return _dependencyPropertyFile;
 	}
 
 	public String getHttpHost() {
-		return httpHost;
+		return _httpHost;
 	}
 
 	public int getHttpPort() {
-		return httpPort;
+		return _httpPort;
 	}
 
 	@Override
@@ -51,24 +51,24 @@ public class LiferayRemoteContainerConfiguration
 	}
 
 	public void setDependencyPropertyFile(String dependencyPropertyFile) {
-		this.dependencyPropertyFile = dependencyPropertyFile;
+		_dependencyPropertyFile = dependencyPropertyFile;
 	}
 
 	public void setHttpHost(String httpHost) {
-		this.httpHost = httpHost;
+		_httpHost = httpHost;
 	}
 
 	public void setHttpPort(int httpPort) {
-		this.httpPort = httpPort;
+		_httpPort = httpPort;
 	}
 
 	@Override
 	public void validate() {
-		if (httpHost == null) {
+		if (_httpHost == null) {
 			setHttpHost(LIFERAY_DEFAULT_HTTP_HOST);
 		}
 
-		if (httpPort == null) {
+		if (_httpPort == null) {
 			setHttpPort(LIFERAY_DEFAULT_HTTP_PORT);
 		}
 
@@ -85,8 +85,8 @@ public class LiferayRemoteContainerConfiguration
 		}
 	}
 
-	private String dependencyPropertyFile;
-	private String httpHost;
-	private Integer httpPort;
+	private String _dependencyPropertyFile;
+	private String _httpHost;
+	private Integer _httpPort;
 
 }

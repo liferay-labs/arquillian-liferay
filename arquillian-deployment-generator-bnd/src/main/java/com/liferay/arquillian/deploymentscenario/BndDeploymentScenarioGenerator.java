@@ -38,7 +38,9 @@ import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.test.spi.TestClass;
 import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.Node;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.Asset;
 import org.jboss.shrinkwrap.api.asset.ByteArrayAsset;
 import org.jboss.shrinkwrap.api.exporter.ZipExporter;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
@@ -55,7 +57,7 @@ public class BndDeploymentScenarioGenerator
 		String sdkDir = System.getProperty("sdk.dir");
 
 		if ((sdkDir != null) && !sdkDir.isEmpty()) {
-			commonBndFile = new File(sdkDir, "common.bnd");
+			_commonBndFile = new File(sdkDir, "common.bnd");
 		}
 	}
 
@@ -78,17 +80,17 @@ public class BndDeploymentScenarioGenerator
 		}
 
 		try (Analyzer analyzer = new Analyzer()) {
-			bndFile = getBndFile(testClass);
+			_bndFile = getBndFile(testClass);
 
 			BndProjectBuilder bndProjectBuilder = ShrinkWrap.create(
 				BndProjectBuilder.class);
 
-			bndProjectBuilder.setBndFile(bndFile);
+			bndProjectBuilder.setBndFile(_bndFile);
 
 			bndProjectBuilder.generateManifest(true);
 
-			if (commonBndFile != null) {
-				bndProjectBuilder.addProjectPropertiesFile(commonBndFile);
+			if (_commonBndFile != null) {
+				bndProjectBuilder.addProjectPropertiesFile(_commonBndFile);
 			}
 
 			String javaClassPathString = System.getProperty("java.class.path");
@@ -99,8 +101,7 @@ public class BndDeploymentScenarioGenerator
 			for (String javaClassPath : javaClassPaths) {
 				File file = new File(javaClassPath);
 
-				if (!(
-					file.isDirectory() ||
+				if (!(file.isDirectory() ||
 					javaClassPath.toLowerCase().endsWith(".zip") ||
 					javaClassPath.toLowerCase().endsWith(".jar"))) {
 
@@ -116,19 +117,19 @@ public class BndDeploymentScenarioGenerator
 
 			Properties analyzerProperties = new Properties();
 
-			if (commonBndFile != null) {
+			if (_commonBndFile != null) {
 				analyzerProperties.putAll(
-					analyzer.loadProperties(commonBndFile));
+					analyzer.loadProperties(_commonBndFile));
 			}
 
-			analyzerProperties.putAll(analyzer.loadProperties(bndFile));
+			analyzerProperties.putAll(analyzer.loadProperties(_bndFile));
 
 			analyzer.setProperties(analyzerProperties);
 
-			boolean testable = isTestable(testClass);
+			boolean testable = _isTestable(testClass);
 
 			if (testable) {
-				addTestClass(testClass, javaArchive);
+				_addTestClass(testClass, javaArchive);
 			}
 
 			ZipExporter zipExporter = javaArchive.as(ZipExporter.class);
@@ -146,8 +147,11 @@ public class BndDeploymentScenarioGenerator
 
 			deployments.add(deploymentDescription);
 
-			Manifest firstPassManifest = new Manifest(
-				javaArchive.get(MANIFEST_PATH).getAsset().openStream());
+			Node node = javaArchive.get(MANIFEST_PATH);
+
+			Asset asset = node.getAsset();
+
+			Manifest firstPassManifest = new Manifest(asset.openStream());
 
 			firstPassManifest.getMainAttributes().remove(
 				new Attributes.Name("Import-Package"));
@@ -163,7 +167,7 @@ public class BndDeploymentScenarioGenerator
 			ByteArrayAsset byteArrayAsset = new ByteArrayAsset(
 				baos.toByteArray());
 
-			replaceManifest(javaArchive, byteArrayAsset);
+			_replaceManifest(javaArchive, byteArrayAsset);
 
 			return deployments;
 		}
@@ -179,15 +183,15 @@ public class BndDeploymentScenarioGenerator
 			return new File(annotation.value());
 		}
 
-		return bndFile;
+		return _bndFile;
 	}
 
 	public void setBndFile(File bndFile) {
-		this.bndFile = bndFile;
+		_bndFile = bndFile;
 	}
 
 	public void setCommonBndFile(File commonBndFile) {
-		this.commonBndFile = commonBndFile;
+		_commonBndFile = commonBndFile;
 	}
 
 	protected DeploymentScenarioGenerator
@@ -202,21 +206,22 @@ public class BndDeploymentScenarioGenerator
 				new AnnotationDeploymentScenarioGenerator();
 		annotationDeploymentScenarioGenerator =
 			injector.get().inject(annotationDeploymentScenarioGenerator);
+
 		return annotationDeploymentScenarioGenerator;
 	}
 
 	@Inject
 	protected Instance<Injector> injector;
 
-	private void addTestClass(TestClass testClass, JavaArchive javaArchive) {
+	private void _addTestClass(TestClass testClass, JavaArchive javaArchive) {
 		javaArchive.addClass(testClass.getJavaClass());
 	}
 
-	private boolean isTestable(TestClass testClass) {
+	private boolean _isTestable(TestClass testClass) {
 		return !testClass.isAnnotationPresent(RunAsClient.class);
 	}
 
-	private void replaceManifest(
+	private void _replaceManifest(
 		Archive<?> archive, ByteArrayAsset byteArrayAsset) {
 
 		archive.delete(MANIFEST_PATH);
@@ -224,7 +229,7 @@ public class BndDeploymentScenarioGenerator
 		archive.add(byteArrayAsset, MANIFEST_PATH);
 	}
 
-	private File bndFile = new File("bnd.bnd");
-	private File commonBndFile;
+	private File _bndFile = new File("bnd.bnd");
+	private File _commonBndFile;
 
 }

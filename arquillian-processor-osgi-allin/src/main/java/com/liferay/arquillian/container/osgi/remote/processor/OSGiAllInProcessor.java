@@ -68,16 +68,16 @@ public class OSGiAllInProcessor implements ApplicationArchiveProcessor {
 		try {
 			JavaArchive javaArchive = (JavaArchive)archive;
 
-			validateBundleArchive(javaArchive);
+			_validateBundleArchive(javaArchive);
 
-			addTestClass(javaArchive, testClass);
+			_addTestClass(javaArchive, testClass);
 
-			List<Archive<?>> extensionArchives = loadAuxiliaryArchives();
+			List<Archive<?>> extensionArchives = _loadAuxiliaryArchives();
 
-			String classPathImports = handleAuxiliaryArchives(
+			String classPathImports = _handleAuxiliaryArchives(
 				javaArchive, extensionArchives);
 
-			addArquillianDependencies(javaArchive);
+			_addArquillianDependencies(javaArchive);
 
 			ManifestManager manifestManager = _manifestManagerInstance.get();
 
@@ -93,16 +93,16 @@ public class OSGiAllInProcessor implements ApplicationArchiveProcessor {
 			Properties properties = new Properties();
 
 			importPackages +=
-				",*;resolution:=optional," + "org.osgi.framework.startlevel," +
+				",*;resolution:=optional,org.osgi.framework.startlevel," +
 					"javax.naming,javax.management";
 
 			if (!classPathImports.equals("")) {
-				importPackages += ","+ classPathImports;
+				importPackages += "," + classPathImports;
 			}
 
 			properties.setProperty(Constants.IMPORT_PACKAGE, importPackages);
 
-			handleOriginalBundleActivator(javaArchive, manifestManager);
+			_handleOriginalBundleActivator(javaArchive, manifestManager);
 
 			manifestManager.generateManifest(
 				javaArchive, extensionArchives, properties);
@@ -116,11 +116,11 @@ public class OSGiAllInProcessor implements ApplicationArchiveProcessor {
 		}
 	}
 
-	private void addArquillianDependencies(JavaArchive javaArchive) {
+	private void _addArquillianDependencies(JavaArchive javaArchive) {
 		javaArchive.addPackage(JMXTestRunner.class.getPackage());
 	}
 
-	private void addBundleActivator(
+	private void _addBundleActivator(
 			JavaArchive javaArchive, String bundleActivatorValue)
 		throws IOException {
 
@@ -137,7 +137,7 @@ public class OSGiAllInProcessor implements ApplicationArchiveProcessor {
 			javaArchive, _ACTIVATORS_FILE, bundleActivators);
 	}
 
-	private void addTestClass(JavaArchive javaArchive, TestClass testClass)
+	private void _addTestClass(JavaArchive javaArchive, TestClass testClass)
 		throws IOException {
 
 		Class<ClassContainer> classContainerClass = ClassContainer.class;
@@ -202,7 +202,7 @@ public class OSGiAllInProcessor implements ApplicationArchiveProcessor {
 		manifestManager.replaceManifest(javaArchive, manifest);
 	}
 
-	private String handleAuxiliaryArchives(
+	private String _handleAuxiliaryArchives(
 			JavaArchive javaArchive, Collection<Archive<?>> auxiliaryArchives)
 		throws IOException {
 
@@ -258,7 +258,7 @@ public class OSGiAllInProcessor implements ApplicationArchiveProcessor {
 			manifestManager.replaceManifest(javaArchive, manifest);
 
 			try {
-				validateBundleArchive(auxiliaryArchive);
+				_validateBundleArchive(auxiliaryArchive);
 
 				Manifest auxiliaryArchiveManifest = manifestManager.getManifest(
 					(JavaArchive)auxiliaryArchive);
@@ -280,7 +280,7 @@ public class OSGiAllInProcessor implements ApplicationArchiveProcessor {
 				if ((bundleActivatorValue != null) &&
 					!bundleActivatorValue.isEmpty()) {
 
-					addBundleActivator(javaArchive, bundleActivatorValue);
+					_addBundleActivator(javaArchive, bundleActivatorValue);
 				}
 			}
 			catch (BundleException be) {
@@ -299,7 +299,7 @@ public class OSGiAllInProcessor implements ApplicationArchiveProcessor {
 		return sb.toString();
 	}
 
-	private void handleOriginalBundleActivator(
+	private void _handleOriginalBundleActivator(
 			JavaArchive javaArchive, ManifestManager manifestManager)
 		throws IOException {
 
@@ -321,11 +321,11 @@ public class OSGiAllInProcessor implements ApplicationArchiveProcessor {
 		javaArchive.addClass(ArquillianBundleActivator.class);
 
 		if (bundleActivator != null) {
-			addBundleActivator(javaArchive, bundleActivator);
+			_addBundleActivator(javaArchive, bundleActivator);
 		}
 	}
 
-	private List<Archive<?>> loadAuxiliaryArchives() {
+	private List<Archive<?>> _loadAuxiliaryArchives() {
 		List<Archive<?>> archives = new ArrayList<>();
 
 		// load based on the Containers ClassLoader
@@ -347,7 +347,7 @@ public class OSGiAllInProcessor implements ApplicationArchiveProcessor {
 		return archives;
 	}
 
-	private void validateBundleArchive(Archive<?> archive)
+	private void _validateBundleArchive(Archive<?> archive)
 		throws BundleException, IOException {
 
 		Manifest manifest = null;

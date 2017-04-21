@@ -21,6 +21,9 @@ import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URL;
 
+import java.util.Collection;
+import java.util.Iterator;
+
 import org.jboss.arquillian.container.spi.client.protocol.metadata.HTTPContext;
 import org.jboss.arquillian.container.spi.client.protocol.metadata.ProtocolMetaData;
 import org.jboss.arquillian.core.api.Instance;
@@ -55,7 +58,7 @@ public class PortalURLTestEnricher implements TestEnricher {
 					PortalURL.class);
 
 				try {
-					injectField(declaredField, testCase, annotation.value());
+					_injectField(declaredField, testCase, annotation.value());
 				}
 				catch (IllegalAccessException iae) {
 					throw new RuntimeException(
@@ -91,30 +94,34 @@ public class PortalURLTestEnricher implements TestEnricher {
 				PortalURL annotation = (PortalURL)getAnnotation(
 					parameterAnnotations, PortalURL.class);
 
-				parameters[i] = resolve(annotation.value());
+				parameters[i] = _resolve(annotation.value());
 			}
 		}
 
 		return parameters;
 	}
 
-	private void injectField(
+	private void _injectField(
 			Field declaredField, Object testCase, String portletId)
 		throws IllegalAccessException {
 
-		setField(declaredField, testCase, resolve(portletId));
+		_setField(declaredField, testCase, _resolve(portletId));
 	}
 
-	private URL resolve(String portletId) {
-		ProtocolMetaData metaData = protocolMetadata.get();
+	private URL _resolve(String portletId) {
+		ProtocolMetaData metaData = _protocolMetadata.get();
 
 		if (metaData == null) {
 			return null;
 		}
 
 		if (metaData.hasContext(HTTPContext.class)) {
-			HTTPContext context = metaData.getContexts(
-				HTTPContext.class).iterator().next();
+			Collection<HTTPContext> contexts = metaData.getContexts(
+				HTTPContext.class);
+
+			Iterator<HTTPContext> iterator = contexts.iterator();
+
+			HTTPContext context = iterator.next();
 
 			try {
 				URL url = new URI(
@@ -122,7 +129,7 @@ public class PortalURLTestEnricher implements TestEnricher {
 					null, null).toURL();
 
 				return new URL(
-					url, "/o/install-portlet-servlet?portlet-id="+portletId);
+					url, "/o/install-portlet-servlet?portlet-id=" + portletId);
 			}
 			catch (Exception e) {
 				throw new RuntimeException("Can't obtain URL, " + context, e);
@@ -132,7 +139,7 @@ public class PortalURLTestEnricher implements TestEnricher {
 		return null;
 	}
 
-	private void setField(Field declaredField, Object testCase, URL service)
+	private void _setField(Field declaredField, Object testCase, URL service)
 		throws IllegalAccessException {
 
 		boolean accessible = declaredField.isAccessible();
@@ -145,6 +152,6 @@ public class PortalURLTestEnricher implements TestEnricher {
 	}
 
 	@org.jboss.arquillian.core.api.annotation.Inject
-	private Instance<ProtocolMetaData> protocolMetadata;
+	private Instance<ProtocolMetaData> _protocolMetadata;
 
 }
