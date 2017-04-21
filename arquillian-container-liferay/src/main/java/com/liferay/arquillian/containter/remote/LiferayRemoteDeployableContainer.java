@@ -14,7 +14,10 @@
 
 package com.liferay.arquillian.containter.remote;
 
+import com.liferay.arquillian.container.osgi.remote.processor.service.BSNContext;
 import com.liferay.arquillian.containter.osgi.allin.remote.KarafWithoutBundleRemoteDeployableContainer;
+
+import java.io.IOException;
 
 import org.jboss.arquillian.container.spi.client.container.DeploymentException;
 import org.jboss.arquillian.container.spi.client.protocol.metadata.HTTPContext;
@@ -23,7 +26,11 @@ import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.InstanceProducer;
 import org.jboss.arquillian.core.api.annotation.ApplicationScoped;
 import org.jboss.arquillian.core.api.annotation.Inject;
+import org.jboss.osgi.spi.BundleInfo;
+import org.jboss.osgi.vfs.AbstractVFS;
+import org.jboss.osgi.vfs.VirtualFile;
 import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.exporter.ZipExporter;
 
 /**
  * @author Carlos Sierra Andrés
@@ -37,12 +44,24 @@ public class LiferayRemoteDeployableContainer
 		throws DeploymentException {
 
 		LiferayRemoteContainerConfiguration config =
-			_configurationInstance.get();
+			configurationInstance.get();
 
 		ProtocolMetaData protocolMetaData = super.deploy(archive);
 
 		protocolMetaData.addContext(
 			new HTTPContext(config.getHttpHost(), config.getHttpPort()));
+
+		try {
+			BundleInfo info = BundleInfo.createBundleInfo(
+				_toVirtualFile(archive));
+
+			String bsn = info.getSymbolicName();
+
+			protocolMetaData.addContext(new BSNContext(bsn));
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		return protocolMetaData;
 	}
@@ -55,7 +74,7 @@ public class LiferayRemoteDeployableContainer
 
 	@Override
 	public void setup(T config) {
-		_configurationInstanceProducer.set(config);
+		configurationInstanceProducer.set(config);
 
 		super.setup(config);
 	}
@@ -63,11 +82,18 @@ public class LiferayRemoteDeployableContainer
 	@ApplicationScoped
 	@Inject
 	protected Instance<LiferayRemoteContainerConfiguration>
-		_configurationInstance;
+		configurationInstance;
 
 	@ApplicationScoped
 	@Inject
 	protected InstanceProducer<LiferayRemoteContainerConfiguration>
-		_configurationInstanceProducer;
+		configurationInstanceProducer;
+
+	private VirtualFile _toVirtualFile(Archive<?> archive) throws IOException {
+		ZipExporter exporter = archive.as(ZipExporter.class);
+
+		return AbstractVFS.toVirtualFile(
+			archive.getName(), exporter.exportAsInputStream());
+	}
 
 }

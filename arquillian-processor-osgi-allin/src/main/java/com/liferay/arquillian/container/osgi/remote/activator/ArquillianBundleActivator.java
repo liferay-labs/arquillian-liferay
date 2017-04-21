@@ -34,6 +34,7 @@ import javax.management.MBeanServerFactory;
 
 import org.jboss.arquillian.protocol.jmx.JMXTestRunner;
 import org.jboss.arquillian.protocol.jmx.JMXTestRunner.TestClassLoader;
+import org.jboss.arquillian.protocol.jmx.JMXTestRunnerMBean;
 import org.jboss.arquillian.testenricher.osgi.BundleAssociation;
 import org.jboss.arquillian.testenricher.osgi.BundleContextAssociation;
 
@@ -60,17 +61,21 @@ public class ArquillianBundleActivator implements BundleActivator {
 
 		// Execute all activators
 
-		bundleActivators = loadActivators();
+		_bundleActivators = _loadActivators();
 
-		for (BundleActivator bundleActivator : bundleActivators) {
+		for (BundleActivator bundleActivator : _bundleActivators) {
 			bundleActivator.start(context);
 		}
 
 		// Register the JMXTestRunner
 
-		MBeanServer mbeanServer = findOrCreateMBeanServer();
+		MBeanServer mbeanServer = _findOrCreateMBeanServer();
 
-		testRunner = new JMXTestRunner(testClassLoader) {
+		String objectName =
+			JMXTestRunnerMBean.OBJECT_NAME + "-" +
+				context.getBundle().getSymbolicName();
+
+		_testRunner = new JMXTestRunner(testClassLoader, objectName) {
 
 			@Override
 			public byte[] runTestMethod(String className, String methodName) {
@@ -81,7 +86,8 @@ public class ArquillianBundleActivator implements BundleActivator {
 			}
 
 		};
-		testRunner.registerMBean(mbeanServer);
+
+		_testRunner.registerMBean(mbeanServer);
 	}
 
 	@Override
@@ -89,17 +95,18 @@ public class ArquillianBundleActivator implements BundleActivator {
 
 		// Execute all activators
 
-		for (BundleActivator bundleActivator : bundleActivators) {
+		for (BundleActivator bundleActivator : _bundleActivators) {
 			bundleActivator.stop(context);
 		}
 
 		// Unregister the JMXTestRunner
 
-		MBeanServer mbeanServer = findOrCreateMBeanServer();
-		testRunner.unregisterMBean(mbeanServer);
+		MBeanServer mbeanServer = _findOrCreateMBeanServer();
+
+		_testRunner.unregisterMBean(mbeanServer);
 	}
 
-	private void addBundleActivatorToActivatorsListFromStringLine(
+	private void _addBundleActivatorToActivatorsListFromStringLine(
 		Set<BundleActivator> activators, String line) {
 
 		Class<? extends ArquillianBundleActivator>
@@ -136,7 +143,7 @@ public class ArquillianBundleActivator implements BundleActivator {
 		}
 	}
 
-	private void addBundleActivatorToActivatorsListFromURL(
+	private void _addBundleActivatorToActivatorsListFromURL(
 			Set<BundleActivator> activators, URL url)
 		throws IOException {
 
@@ -150,9 +157,9 @@ public class ArquillianBundleActivator implements BundleActivator {
 			String line = reader.readLine();
 
 			while (null != line) {
-				line = skipCommentAndTrim(line);
+				line = _skipCommentAndTrim(line);
 
-				addBundleActivatorToActivatorsListFromStringLine(
+				_addBundleActivatorToActivatorsListFromStringLine(
 					activators, line);
 
 				line = reader.readLine();
@@ -165,29 +172,32 @@ public class ArquillianBundleActivator implements BundleActivator {
 		}
 	}
 
-	private MBeanServer findOrCreateMBeanServer() {
+	private MBeanServer _findOrCreateMBeanServer() {
 		MBeanServer mbeanServer = null;
 
 		List<MBeanServer> serverArr = MBeanServerFactory.findMBeanServer(null);
 
 		if (serverArr.size() > 1) {
-			logger.warning("Multiple MBeanServer instances: " + serverArr);
+			_logger.warning("Multiple MBeanServer instances: " + serverArr);
 		}
 
 		if (!serverArr.isEmpty()) {
 			mbeanServer = serverArr.get(0);
-			logger.fine("Found MBeanServer: " + mbeanServer.getDefaultDomain());
+
+			_logger.fine(
+				"Found MBeanServer: " + mbeanServer.getDefaultDomain());
 		}
 
 		if (mbeanServer == null) {
-			logger.fine("No MBeanServer, create one ...");
+			_logger.fine("No MBeanServer, create one ...");
+
 			mbeanServer = ManagementFactory.getPlatformMBeanServer();
 		}
 
 		return mbeanServer;
 	}
 
-	private Set<BundleActivator> loadActivators() {
+	private Set<BundleActivator> _loadActivators() {
 		String serviceFile =
 			_SERVICES + "/" + BundleActivator.class.getCanonicalName();
 
@@ -204,7 +214,7 @@ public class ArquillianBundleActivator implements BundleActivator {
 				serviceFile);
 
 			while (enumeration.hasMoreElements()) {
-				addBundleActivatorToActivatorsListFromURL(
+				_addBundleActivatorToActivatorsListFromURL(
 					activators, enumeration.nextElement());
 			}
 		}
@@ -215,7 +225,7 @@ public class ArquillianBundleActivator implements BundleActivator {
 		return activators;
 	}
 
-	private String skipCommentAndTrim(String line) {
+	private String _skipCommentAndTrim(String line) {
 		final int comment = line.indexOf('#');
 
 		String lineWithoutComment = line;
@@ -231,10 +241,10 @@ public class ArquillianBundleActivator implements BundleActivator {
 
 	// Provide logging
 
-	private static final Logger logger = Logger.getLogger(
+	private static final Logger _logger = Logger.getLogger(
 		ArquillianBundleActivator.class.getName());
 
-	private Set<BundleActivator> bundleActivators;
-	private JMXTestRunner testRunner;
+	private Set<BundleActivator> _bundleActivators;
+	private JMXTestRunner _testRunner;
 
 }

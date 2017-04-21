@@ -1,0 +1,3 @@
+Bundle-SymbolicName: ${project.artifactId}
+Export-Package: com.liferay.arquillian.installportlet
+-dsannotations: *

@@ -95,6 +95,7 @@ public class BundleActivatorsManagerImpl implements BundleActivatorsManager {
 
 		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 		String line = null;
+
 		while ((line = reader.readLine()) != null) {
 			bundleActivators.add(line);
 		}
