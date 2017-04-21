@@ -41,9 +41,10 @@ public class BundleActivatorsManagerTest {
 	@Test
 	public void testGetBundleActivators() throws IOException {
 		//given:
-		JavaArchive javaArchive = createJavaArchive();
+		JavaArchive javaArchive = _createJavaArchive();
 
 		List<String> initialBundleActivators = new ArrayList<>();
+
 		initialBundleActivators.add("Activator1");
 		initialBundleActivators.add("Activator2");
 		initialBundleActivators.add("Activator3");
@@ -77,9 +78,10 @@ public class BundleActivatorsManagerTest {
 	@Test
 	public void testReplaceBundleActivatorsFile() throws IOException {
 		//given:
-		JavaArchive javaArchive = createJavaArchive();
+		JavaArchive javaArchive = _createJavaArchive();
 
 		List<String> initialBundleActivators = new ArrayList<>();
+
 		initialBundleActivators.add("Activator1");
 		initialBundleActivators.add("Activator2");
 		initialBundleActivators.add("Activator3");
@@ -98,6 +100,7 @@ public class BundleActivatorsManagerTest {
 
 		//when:
 		List<String> updateBundleActivators = new ArrayList<>();
+
 		updateBundleActivators.add("Activator4");
 		updateBundleActivators.add("Activator5");
 
@@ -117,7 +120,7 @@ public class BundleActivatorsManagerTest {
 		}
 	}
 
-	private JavaArchive createJavaArchive() {
+	private JavaArchive _createJavaArchive() {
 		JavaArchive javaArchive = ShrinkWrap.create(
 			JavaArchive.class, "dummy-jar.jar");
 
