@@ -8,9 +8,13 @@ before_install:
   - pip install --user codecov
 
 install:
-  - travis_wait mvn -DskipTests=true -Dmaven.javadoc.skip=true -B -Vinstall
+  - mvn generate-test-sources
+
+script:
+  - mvn install -Pjacoco
 
 after_success:
+  - cat arquillian-extension-liferay-example/target/site/jacoco/jacoco.xml
   - codecov
 
 after_failure:

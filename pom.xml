@@ -33,8 +33,7 @@
 		<version.junit>4.12</version.junit>
 		<version.jboss_javaee6_spec>2.0.0.Final</version.jboss_javaee6_spec>
 		<version.jbossas_7>7.1.1.Final</version.jbossas_7>
-		<version.jacoco>0.7.4.201502262128</version.jacoco>
-		<version.arquillian_jacoco>1.0.0.Alpha8</version.arquillian_jacoco>
+		<version.jacoco>0.7.9</version.jacoco>
 	</properties>
 
 	<dependencyManagement>
@@ -120,12 +119,6 @@
 					<version>${version.jacoco}</version>
 					<scope>test</scope>
 				</dependency>
-				<dependency>
-					<groupId>org.jboss.arquillian.extension</groupId>
-					<artifactId>arquillian-jacoco</artifactId>
-					<version>${version.arquillian_jacoco}</version>
-					<scope>test</scope>
-				</dependency>
 			</dependencies>
 			<build>
 				<plugins>
@@ -141,10 +134,15 @@
 							</execution>
 							<execution>
 								<id>report</id>
-								<phase>test</phase>
+								<phase>package</phase>
 								<goals>
 									<goal>report</goal>
 								</goals>
+								<configuration>
+									<dataFile>${project.build.directory}/jacoco.exec</dataFile>
+									<dataFile>${project.build.directory}/jacocoIntegration.exec</dataFile>
+									<outputDirectory>${project.reporting.outputDirectory}/jacoco</outputDirectory>
+								</configuration>
 							</execution>
 						</executions>
 					</plugin>
