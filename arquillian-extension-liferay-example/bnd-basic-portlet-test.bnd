@@ -1,7 +1,12 @@
 Bundle-Name: Basic Portlet Test
 Bundle-SymbolicName: com.liferay.arquillian.sample
 Bundle-Version: 1.0.0
-Export-Package: com.liferay.arquillian.sample
+Export-Package:\
+	com.liferay.arquillian.sample.service,\
+	com.liferay.arquillian.sample.service4injection
+Import-Package:\
+	!com.liferay.shrinkwrap.osgi.api,\
+	*
 Include-Resource:\
 	target/classes,\
 	META-INF/resources=src/main/resources/META-INF/resources

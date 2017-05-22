@@ -65,7 +65,9 @@ public class InjectionsTest {
 	@Test
 	public void testInjectBundleContext() {
 		Assert.assertNotNull(_bundleContext);
-		Assert.assertEquals(_bundle, _bundleContext.getBundle());
+		Assert.assertEquals(
+			_bundle.getBundleContext().getBundle(0),
+			_bundleContext.getBundle());
 	}
 
 	@Test
