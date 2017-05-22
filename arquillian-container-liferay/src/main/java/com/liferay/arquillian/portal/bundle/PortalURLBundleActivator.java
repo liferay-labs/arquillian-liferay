@@ -12,9 +12,9 @@
  * details.
  */
 
-package com.liferay.arquillian.portal.activator;
+package com.liferay.arquillian.portal.bundle;
 
-import com.liferay.arquillian.portal.servlet.PortalURLServlet;
+import com.liferay.arquillian.portal.bundle.servlet.PortalURLServlet;
 import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.LayoutLocalService;

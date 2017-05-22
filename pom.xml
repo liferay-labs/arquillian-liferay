@@ -203,11 +203,8 @@
 
 	<modules>
 		<module>arquillian-container-liferay</module>
-		<module>arquillian-container-osgi-allin</module>
-		<module>arquillian-portal-liferay-extension</module>
 		<module>arquillian-deployment-generator-bnd</module>
 		<module>arquillian-extension-liferay-example</module>
-		<module>arquillian-processor-osgi-allin</module>
 	</modules>
 
 	<repositories>

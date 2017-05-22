@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.arquillian.portal.annotation;
+package com.liferay.arquillian.portal.bundle.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

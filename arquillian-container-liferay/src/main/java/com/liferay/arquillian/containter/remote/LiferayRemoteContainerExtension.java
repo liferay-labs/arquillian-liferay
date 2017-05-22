@@ -17,10 +17,13 @@ package com.liferay.arquillian.containter.remote;
 import com.liferay.arquillian.container.remote.installdependency.LiferayInstallDependenciesObserver;
 import com.liferay.arquillian.containter.remote.enricher.LiferayEnricherAuxiliaryAppender;
 import com.liferay.arquillian.containter.remote.wait.LiferayWaitForServiceAuxiliaryAppender;
+import com.liferay.arquillian.portal.bundle.annotation.PortalURLTestEnricher;
+
 import org.jboss.arquillian.container.osgi.karaf.remote.KarafRemoteDeployableContainer;
 import org.jboss.arquillian.container.spi.client.container.DeployableContainer;
 import org.jboss.arquillian.container.test.spi.client.deployment.AuxiliaryArchiveAppender;
 import org.jboss.arquillian.core.spi.LoadableExtension;
+import org.jboss.arquillian.test.spi.TestEnricher;
 
 /**
  * @author Carlos Sierra Andrés
@@ -42,6 +45,8 @@ public class LiferayRemoteContainerExtension implements LoadableExtension {
 			LiferayWaitForServiceAuxiliaryAppender.class);
 
 		builder.observer(LiferayInstallDependenciesObserver.class);
+
+		builder.service(TestEnricher.class, PortalURLTestEnricher.class);
 	}
 
 }

@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.arquillian.portal.servlet;
+package com.liferay.arquillian.portal.bundle.servlet;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Company;
