@@ -432,10 +432,15 @@ public class LiferayInstallDependenciesObserver {
 			}
 		}
 		catch (IOException ioe) {
-			throw new LifecycleException(
-				"The bundle in the path " + filePath +
-					"can't be found, so it can't be installed",
-				ioe);
+			if (ioe.getMessage().contains("A bundle is already installed")) {
+				_log.warning("The bundle was already installed " + filePath);
+			}
+			else {
+				throw new LifecycleException(
+					"The bundle in the path " + filePath +
+						" can't be found, so it can't be installed",
+					ioe);
+			}
 		}
 		catch (InterruptedException ie) {
 			throw new LifecycleException("InterruptedException", ie);
