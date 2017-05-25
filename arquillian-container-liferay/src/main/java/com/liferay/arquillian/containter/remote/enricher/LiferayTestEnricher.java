@@ -23,8 +23,9 @@ import org.jboss.arquillian.test.spi.TestEnricher;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleReference;
+import org.osgi.framework.Filter;
 import org.osgi.framework.InvalidSyntaxException;
-import org.osgi.framework.ServiceReference;
+import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * @author Carlos Sierra Andrés
@@ -120,18 +121,48 @@ public class LiferayTestEnricher implements TestEnricher {
 
 		BundleContext bundleContext = bundle.getBundleContext();
 
-		ServiceReference<?>[] serviceReferences;
+		ServiceTracker<?, ?> serviceTracker = null;
 
 		try {
-			serviceReferences = bundleContext.getServiceReferences(
-				componentClass.getName(), filterString);
+			Filter filter;
+
+			if (filterString != null) {
+				filter = bundleContext.createFilter(
+					String.format(
+						"(&(objectClass=%s)%s)", componentClass.getName(),
+						filterString));
+			}
+			else {
+				filter = bundleContext.createFilter(
+					String.format(
+						"(objectClass=%s)", componentClass.getName()));
+			}
+
+			serviceTracker = new ServiceTracker<>(bundleContext, filter, null);
+
+			serviceTracker.open();
+
+			Object service = serviceTracker.waitForService(5 * 1000L);
+
+			if (service == null) {
+				throw new RuntimeException(
+					"Timeout waiting for : " + filterString);
+			}
+
+			return service;
 		}
 		catch (InvalidSyntaxException ise) {
 			throw new RuntimeException(
 				"Bad Syntax for the filter: " + filterString, ise);
 		}
-
-		return bundleContext.getService(serviceReferences[0]);
+		catch (InterruptedException ie) {
+			throw new RuntimeException(ie);
+		}
+		finally {
+			if (serviceTracker != null) {
+				serviceTracker.close();
+			}
+		}
 	}
 
 	private void setField(
