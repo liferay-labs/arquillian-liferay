@@ -15,10 +15,13 @@
 package com.liferay.arquillian.container.remote.installdependency;
 
 import com.liferay.arquillian.containter.remote.LiferayRemoteContainerConfiguration;
+import com.liferay.arquillian.portal.bundle.PortalURLBundleActivator;
+import com.liferay.arquillian.portal.bundle.servlet.PortalURLServlet;
 import com.liferay.hot.deploy.jmx.listener.mbean.manager.PluginMBeanManager;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import java.net.URL;
 
@@ -32,6 +35,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -60,6 +64,11 @@ import org.jboss.arquillian.core.api.InstanceProducer;
 import org.jboss.arquillian.core.api.annotation.ApplicationScoped;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.api.annotation.Observes;
+import org.jboss.osgi.metadata.OSGiManifestBuilder;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.Asset;
+import org.jboss.shrinkwrap.api.exporter.ZipExporter;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.ConfigurableMavenResolverSystem;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.jboss.shrinkwrap.resolver.api.maven.MavenFormatStage;
@@ -83,11 +92,13 @@ public class LiferayInstallDependenciesObserver {
 
 		_installedBundles = new ArrayList<>();
 
+		_initOSGiJMXAttributes(config);
+
+		_initLiferayJMXAttributes();
+
+		_installPortalDependencies();
+
 		if (dependencyPropertyFile != null) {
-			_initOSGiJMXAttributes(config);
-
-			_initLiferayJMXAttributes();
-
 			Path dependencyPropertyFilePath = Paths.get(dependencyPropertyFile);
 
 			Charset charset = Charset.forName("UTF-8");
@@ -421,10 +432,15 @@ public class LiferayInstallDependenciesObserver {
 			}
 		}
 		catch (IOException ioe) {
-			throw new LifecycleException(
-				"The bundle in the path " + filePath +
-					"can't be found, so it can't be installed",
-				ioe);
+			if (ioe.getMessage().contains("A bundle is already installed")) {
+				_log.warning("The bundle was already installed " + filePath);
+			}
+			else {
+				throw new LifecycleException(
+					"The bundle in the path " + filePath +
+						" can't be found, so it can't be installed",
+					ioe);
+			}
 		}
 		catch (InterruptedException ie) {
 			throw new LifecycleException("InterruptedException", ie);
@@ -432,6 +448,51 @@ public class LiferayInstallDependenciesObserver {
 		catch (TimeoutException te) {
 			throw new LifecycleException("Timeout exception", te);
 		}
+	}
+
+	private void _installPortalDependencies() throws LifecycleException {
+		JavaArchive archive = ShrinkWrap.create(
+			JavaArchive.class, "arquillian-install-portlet-in-liferay.jar");
+
+		archive.addClass(PortalURLBundleActivator.class);
+		archive.addClass(PortalURLServlet.class);
+
+		archive.setManifest(
+			new Asset() {
+
+				@Override
+				public InputStream openStream() {
+					OSGiManifestBuilder builder =
+						OSGiManifestBuilder.newInstance();
+
+					builder.addBundleManifestVersion(2);
+					builder.addBundleSymbolicName(
+						"arquillian-install-portlet-in-liferay");
+					builder.addImportPackages(
+						"com.liferay.portal.kernel.exception",
+						"com.liferay.portal.kernel.util",
+						"com.liferay.portal.kernel.model",
+						"com.liferay.portal.kernel.service",
+						"javax.servlet.http", "javax.portlet", "javax.servlet",
+						"org.osgi.framework");
+					builder.addBundleActivator(PortalURLBundleActivator.class);
+
+					return builder.openStream();
+				}
+
+			});
+
+		UUID uuid = UUID.randomUUID();
+
+		File tmpfile = new File("tmpfiles" + uuid.toString() + ".jar");
+
+		ZipExporter exporter = archive.as(ZipExporter.class);
+
+		exporter.exportTo(tmpfile);
+
+		_installBundle(tmpfile.getAbsolutePath());
+
+		tmpfile.deleteOnExit();
 	}
 
 	private static final String _FILE_PREFIX = "file";
