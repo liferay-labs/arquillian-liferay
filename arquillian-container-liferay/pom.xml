@@ -16,6 +16,21 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>com.liferay.portal</groupId>
+			<artifactId>com.liferay.portal.kernel</artifactId>
+			<version>2.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.portlet</groupId>
+			<artifactId>portlet-api</artifactId>
+			<version>2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+		<dependency>
 			<groupId>biz.aQute.bnd</groupId>
 			<artifactId>bndlib</artifactId>
 			<version>2.4.0</version>
@@ -51,11 +66,6 @@
 			<groupId>org.jboss.arquillian.osgi</groupId>
 			<artifactId>arquillian-osgi-bundle</artifactId>
 			<version>2.2.1.Final</version>
-		</dependency>
-		<dependency>
-			<groupId>com.liferay.arquillian</groupId>
-			<artifactId>com.liferay.arquillian.arquillian-portal-liferay-extension</artifactId>
-			<version>${parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.osgi</groupId>
