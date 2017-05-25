@@ -51,7 +51,7 @@ public class InstallDependenciesTest {
 
 	@Test
 	public void testInstallDependency() {
-		boolean found = true;
+		boolean found = false;
 
 		Bundle[] bundles = _bundleContext.getBundles();
 
