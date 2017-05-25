@@ -490,7 +490,7 @@ public class LiferayInstallDependenciesObserver {
 
 		exporter.exportTo(tmpfile);
 
-		_installBundle(tmpfile.getAbsolutePath().toString());
+		_installBundle(tmpfile.getAbsolutePath());
 
 		tmpfile.deleteOnExit();
 	}
