@@ -29,7 +29,7 @@ import org.osgi.util.tracker.ServiceTracker;
 /**
  * @author Cristina González
  */
-public class LiferayWaitForServiceObserver {
+public class LiferayWaitForServiceBuilderObserver {
 
 	public void execute(@Observes(precedence = Integer.MAX_VALUE)
 		EventContext<BeforeSuite> event) throws InvalidSyntaxException {

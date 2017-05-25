@@ -19,14 +19,15 @@ import org.jboss.arquillian.container.test.spi.RemoteLoadableExtension;
 /**
  * @author Cristina González
  */
-public class LiferayWaitForServiceExtension implements RemoteLoadableExtension {
+public class LiferayWaitForServiceBuilderExtension
+	implements RemoteLoadableExtension {
 
 	@Override
 	public void register(ExtensionBuilder builder) {
 		if (Validate.classExists(
 				"org.springframework.context.ApplicationContext")) {
 
-			builder.observer(LiferayWaitForServiceObserver.class);
+			builder.observer(LiferayWaitForServiceBuilderObserver.class);
 		}
 	}
 

@@ -25,7 +25,7 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 /**
  * @author Cristina González
  */
-public class LiferayWaitForServiceAuxiliaryAppender
+public class LiferayWaitForServiceBuilderAuxiliaryAppender
 	implements AuxiliaryArchiveAppender {
 
 	@Override
@@ -35,11 +35,11 @@ public class LiferayWaitForServiceAuxiliaryAppender
 
 		archive.addAsServiceProvider(
 			RemoteLoadableExtension.class,
-			LiferayWaitForServiceExtension.class);
+			LiferayWaitForServiceBuilderExtension.class);
 
 		archive.addClasses(
-			Inject.class, LiferayWaitForServiceObserver.class,
-			LiferayWaitForServiceExtension.class);
+			Inject.class, LiferayWaitForServiceBuilderObserver.class,
+			LiferayWaitForServiceBuilderExtension.class);
 
 		return archive;
 	}
