@@ -16,8 +16,10 @@
 		<property name="includes">com.liferay.arquillian.sample.*</property>
 	</extension>
 
-	<extension qualifier="liferay">
-		<property name="dependencyPropertyFile">src/test/resources/test-dependencies.properties</property>
-	</extension>
+	<container qualifier="liferay" default="true">
+		<configuration>
+			<property name="dependencyPropertyFile">src/test/resources/test-dependencies.properties</property>
+		</configuration>
+	</container>
 
 </arquillian>
