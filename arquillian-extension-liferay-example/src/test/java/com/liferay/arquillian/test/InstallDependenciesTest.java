@@ -51,19 +51,21 @@ public class InstallDependenciesTest {
 
 	@Test
 	public void testInstallDependency() {
-		boolean found = true;
+		boolean found = false;
 
 		Bundle[] bundles = _bundleContext.getBundles();
 
 		for (Bundle bundle : bundles) {
-			if ("portal-test".equals(bundle.getSymbolicName())) {
+			if ("org.apache.servicemix.bundles.guava".equals(
+					bundle.getSymbolicName())) {
+
 				found = true;
 
 				break;
 			}
 		}
 
-		Assert.assertTrue("portal-test has not been installed", found);
+		Assert.assertTrue("javax.inject has not been installed", found);
 	}
 
 	@ArquillianResource
