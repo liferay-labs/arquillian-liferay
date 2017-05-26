@@ -4,7 +4,7 @@
 
 	<groupId>com.liferay.arquillian</groupId>
 	<artifactId>com.liferay.arquillian.arquillian-extension-liferay</artifactId>
-	<version>1.0.7</version>
+	<version>1.0.8</version>
 	<packaging>pom</packaging>
 	<name>Arquillian Liferay</name>
 	<description>Arquillian Extension for Liferay Portal Server. OSGi incontainer deployment.</description>
