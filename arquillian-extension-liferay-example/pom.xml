@@ -4,7 +4,7 @@
 <parent>
 	<artifactId>com.liferay.arquillian.arquillian-extension-liferay</artifactId>
 	<groupId>com.liferay.arquillian</groupId>
-	<version>1.0.8</version>
+	<version>1.0.9</version>
 	<relativePath>../pom.xml</relativePath>
 </parent>
 
@@ -241,7 +241,7 @@
 		<dependency>
 			<groupId>com.liferay.arquillian</groupId>
 			<artifactId>com.liferay.arquillian.arquillian-container-liferay</artifactId>
-			<version>${parent.version}</version>
+			<version>${project.parent.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>com.liferay.arquillian.arquillian-extension-liferay</artifactId>
 		<groupId>com.liferay.arquillian</groupId>
-		<version>1.0.8</version>
+		<version>1.0.9</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -18,7 +18,7 @@
 		<dependency>
 			<groupId>com.liferay.portal</groupId>
 			<artifactId>com.liferay.portal.kernel</artifactId>
-			<version>2.3.0</version>
+			<version>2.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.portlet</groupId>
@@ -38,7 +38,7 @@
 		<dependency>
 			<groupId>com.liferay</groupId>
 			<artifactId>com.liferay.hot.deploy.jmx.listener</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
