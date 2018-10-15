@@ -76,6 +76,7 @@
 								<phase>process-test-sources</phase>
 								<configuration>
 									<target>
+										<echo message="create portal-ext.properties" />
 										<echo file="${liferay.home}/portal-ext.properties">browser.launcher.url=</echo>
 									</target>
 								</configuration>
@@ -88,6 +89,7 @@
 								<phase>process-test-sources</phase>
 								<configuration>
 									<target>
+										<echo message="touch file ${arquillian.liferay.bundle}/unziped-successfully" />
 										<touch file="${arquillian.liferay.bundle}/unziped-successfully" />
 									</target>
 								</configuration>
