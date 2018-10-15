@@ -316,6 +316,31 @@
 		</testResources>
 		<plugins>
 			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+
+						<!-- Create special property 'liferay.home.unix' for resource filtering in file
+						portal-setup-wizard.properties because Liferay does not start correctly on Windows
+						if the path contains backslashes -->
+
+						<id>regex-property</id>
+						<goals>
+							<goal>regex-property</goal>
+						</goals>
+						<configuration>
+							<name>liferay.home.unix</name>
+							<value>${liferay.home}</value>
+							<regex>\\</regex>
+							<replacement>/</replacement>
+							<failIfNoMatch>false</failIfNoMatch>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>2.7</version>
 				<dependencies>
