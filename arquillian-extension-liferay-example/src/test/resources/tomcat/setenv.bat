@@ -12,8 +12,8 @@ set JMX_OPTS="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.auth
 
 set CATALINA_OPTS="%CATALINA_OPTS% %JMX_OPTS%"
 
-DEBUG_OPTS="-agentlib:jdwp=transport=dt_socket,address=9000,server=y,suspend=n"
 
 set CATALINA_OPTS="%CATALINA_OPTS% %DEBUG_OPTS%"
 
+set DEBUG_OPTS=-agentlib:jdwp=transport=dt_socket,address=9000,server=y,suspend=n
 
