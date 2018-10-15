@@ -148,7 +148,7 @@
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>exec-maven-plugin</artifactId>
-						<version>1.1</version>
+						<version>1.6.0</version>
 						<executions>
 							<execution>
 								<id>clean-tomcat</id>
@@ -158,15 +158,12 @@
 								</goals>
 								<configuration>
 									<executable>${liferay.executable.stop}</executable>
+
+									<!-- Ignore return code 1 if server is not running -->
+
+									<successCodes>0,1</successCodes>
 								</configuration>
 							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>exec-maven-plugin</artifactId>
-						<version>1.1</version>
-						<executions>
 							<execution>
 								<id>start-tomcat</id>
 								<phase>test-compile</phase>
@@ -175,6 +172,8 @@
 								</goals>
 								<configuration>
 									<executable>${liferay.executable.start}</executable>
+									<async>true</async>
+									<asyncDestroyOnShutdown>true</asyncDestroyOnShutdown>
 								</configuration>
 							</execution>
 							<execution>
