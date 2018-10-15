@@ -15,7 +15,7 @@
 
 	<properties>
 		<test.resources>src/test/resources</test.resources>
-		<arquillian.liferay.bundle>${project.basedir}/../arquillian-liferay-bundle</arquillian.liferay.bundle>
+		<arquillian.liferay.bundle>${maven.multiModuleProjectDirectory}/arquillian-liferay-bundle</arquillian.liferay.bundle>
 		<liferay.home>${arquillian.liferay.bundle}/liferay-ce-portal-7.0-ga3</liferay.home>
 		<liferay.server>${liferay.home}/tomcat-8.0.32</liferay.server>
 		<url.liferay><![CDATA[http://downloads.sourceforge.net/project/lportal/Liferay%20Portal/7.0.2%20GA3/liferay-ce-portal-tomcat-7.0-ga3-20160804222206210.zip]]></url.liferay>
@@ -27,7 +27,7 @@
 			<id>download-test-environment</id>
 			<activation>
 				<file>
-					<missing>../arquillian-liferay-bundle/unziped-successfully</missing>
+					<missing>${arquillian.liferay.bundle}/unziped-successfully</missing>
 				</file>
 			</activation>
 			<build>
