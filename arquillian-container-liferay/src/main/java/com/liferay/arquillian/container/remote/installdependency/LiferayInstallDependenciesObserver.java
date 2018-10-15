@@ -18,6 +18,7 @@ import com.liferay.arquillian.containter.remote.LiferayRemoteContainerConfigurat
 import com.liferay.arquillian.portal.bundle.PortalURLBundleActivator;
 import com.liferay.arquillian.portal.bundle.servlet.PortalURLServlet;
 import com.liferay.hot.deploy.jmx.listener.mbean.manager.PluginMBeanManager;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -81,6 +82,12 @@ import org.osgi.jmx.framework.FrameworkMBean;
  * @author Cristina González
  */
 public class LiferayInstallDependenciesObserver {
+
+	public static final boolean IS_WINDOWS =
+		System.getProperty("os.name") != null &&
+			StringUtil.toLowerCase(
+				System.getProperty("os.name")
+			).contains("windows");
 
 	public void startContainer(@Observes StartContainer context)
 		throws Exception {
@@ -395,6 +402,10 @@ public class LiferayInstallDependenciesObserver {
 
 	private void _installBundle(String filePath) throws LifecycleException {
 		try {
+			if (IS_WINDOWS) {
+				filePath = filePath.replaceFirst("^[a-zA-Z]:", "/$0");
+			}
+
 			String pathWithProtocol = "file://" + filePath;
 
 			String contextName = "";
