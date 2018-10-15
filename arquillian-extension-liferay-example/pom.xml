@@ -194,11 +194,18 @@
 						<version>1.8</version>
 						<executions>
 							<execution>
+
+								<!--
+									TODO instead: find out how to wait until server has actually started up completely
+								 	as 100 seconds could be way too short (on my machine it is more like 330 s)
+								 	or maybe too long
+								-->
+
 								<id>sleep-for-a-while</id>
 								<phase>test-compile</phase>
 								<configuration>
 									<target>
-										<sleep seconds="100" />
+										<sleep seconds="350" />
 									</target>
 								</configuration>
 								<goals>
