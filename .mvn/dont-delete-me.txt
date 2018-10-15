@@ -1,0 +1,2 @@
+In order for ${maven.multiModuleProjectDirectory} to work correctly, directory '.mvn'
+is needed in the root directory, see https://stackoverflow.com/a/49528226/1082681.
