@@ -73,19 +73,6 @@
 								</goals>
 							</execution>
 							<execution>
-								<id>disable-open-browser</id>
-								<phase>process-test-sources</phase>
-								<configuration>
-									<target>
-										<echo message="create portal-ext.properties" />
-										<echo file="${liferay.home}/portal-ext.properties">browser.launcher.url=</echo>
-									</target>
-								</configuration>
-								<goals>
-									<goal>run</goal>
-								</goals>
-							</execution>
-							<execution>
 								<id>create-file</id>
 								<phase>process-test-sources</phase>
 								<configuration>
@@ -99,6 +86,50 @@
 								</goals>
 							</execution>
 						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<version>3.1.1</version>
+						<executions>
+							<execution>
+								<id>copy-jmx-dependencies</id>
+								<phase>process-test-sources</phase>
+								<goals>
+									<goal>copy</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.apache.aries</groupId>
+									<artifactId>org.apache.aries.util</artifactId>
+									<version>1.1.1</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>org.apache.aries.jmx</groupId>
+									<artifactId>org.apache.aries.jmx.api</artifactId>
+									<version>1.1.5</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>org.apache.aries.jmx</groupId>
+									<artifactId>org.apache.aries.jmx.core</artifactId>
+									<version>1.1.8</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.liferay.portal</groupId>
+									<artifactId>com.liferay.portal.kernel</artifactId>
+									<version>2.0.0</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.liferay</groupId>
+									<artifactId>com.liferay.hot.deploy.jmx.listener</artifactId>
+									<version>1.0.1</version>
+								</artifactItem>
+							</artifactItems>
+							<outputDirectory>${liferay.home}/osgi/modules</outputDirectory>
+						</configuration>
 					</plugin>
 				</plugins>
 			</build>
@@ -316,7 +347,10 @@
 				<targetPath>${liferay.home}</targetPath>
 				<filtering>true</filtering>
 				<directory>${test.resources}/liferay</directory>
-				<includes><include>portal-setup-wizard.properties</include></includes>
+				<includes>
+					<include>portal-ext.properties</include>
+					<include>portal-setup-wizard.properties</include>
+				</includes>
 			</resource>
 		</resources>
 		<testResources>

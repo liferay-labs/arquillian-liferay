@@ -335,8 +335,6 @@ public class LiferayInstallDependenciesObserver {
 	}
 
 	private void _initLiferayJMXAttributes() throws LifecycleException {
-		_installBundle(_getMavenDependencyPath(_HOT_DEPLOY_JMX_LISTENER_MVN));
-
 		try {
 
 			// Get the PluginsMBean
@@ -511,9 +509,6 @@ public class LiferayInstallDependenciesObserver {
 	}
 
 	private static final String _FILE_PREFIX = "file";
-
-	private static final String _HOT_DEPLOY_JMX_LISTENER_MVN =
-		"com.liferay:com.liferay.hot.deploy.jmx.listener:1.0.1";
 
 	private static final String _MAVEN_PREFIX = "mvn";
 
