@@ -13,8 +13,7 @@ This example will be executed in the following environment:
     * `org.apache.aries.jmx:org.apache.aries.jmx.api:1.1.5`
     * `org.apache.aries:org.apache.aries.util:1.1.1`
     * `org.apache.aries.jmx:org.apache.aries.jmx.core:1.1.8`
-    * `com.liferay.portal:com.liferay.portal.kernel:2.0.0`
-    * `com.liferay:com.liferay.hot.deploy.jmx.listener:1.0.1`
+    * `com.liferay:com.liferay.hot.deploy.jmx.listener:2.0.0-SNAPSHOT`
   * Tomcat Manager installed and configured.
 * Liferay 7.1.0
 * JUnit 4.12

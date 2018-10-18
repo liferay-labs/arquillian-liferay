@@ -118,14 +118,12 @@
 									<version>1.1.8</version>
 								</artifactItem>
 								<artifactItem>
-									<groupId>com.liferay.portal</groupId>
-									<artifactId>com.liferay.portal.kernel</artifactId>
-									<version>2.0.0</version>
-								</artifactItem>
-								<artifactItem>
 									<groupId>com.liferay</groupId>
 									<artifactId>com.liferay.hot.deploy.jmx.listener</artifactId>
-									<version>1.0.1</version>
+
+									<!-- TODO: replace by non-snapshot version as soon as one is available for Liferay 7.1 -->
+
+									<version>2.0.0-SNAPSHOT</version>
 								</artifactItem>
 							</artifactItems>
 							<outputDirectory>${liferay.home}/osgi/modules</outputDirectory>
@@ -367,9 +365,11 @@
 				<executions>
 					<execution>
 
-						<!-- Create special property 'liferay.home.unix' for resource filtering in file
-						portal-setup-wizard.properties because Liferay does not start correctly on Windows
-						if the path contains backslashes -->
+						<!--
+							Create special property 'liferay.home.unix' for resource filtering in file
+							portal-setup-wizard.properties because Liferay does not start correctly on Windows
+							if the path contains backslashes
+						-->
 
 						<id>regex-property</id>
 						<goals>
@@ -416,5 +416,18 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<repositories>
+
+		<!--
+			TODO: remove as soon as non-snapshot version of com.liferay:com.liferay.hot.deploy.jmx.listener
+			is available for Liferay 7.1
+		-->
+
+		<repository>
+			<id>liferay-snapshots</id>
+			<url>https://repository.liferay.com/nexus/content/repositories/liferay-public-snapshots/</url>
+		</repository>
+	</repositories>
 
 </project>
