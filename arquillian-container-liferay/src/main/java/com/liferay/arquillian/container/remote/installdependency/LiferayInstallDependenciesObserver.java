@@ -402,10 +402,15 @@ public class LiferayInstallDependenciesObserver {
 
 	private void _installBundle(String filePath) throws LifecycleException {
 		try {
-			String pathWithProtocol = "file://" +
-				(IS_WINDOWS
-					? filePath.replaceFirst("^[a-zA-Z]:", "/$0")
-					: filePath);
+			String pathWithProtocol;
+
+			if (IS_WINDOWS) {
+				pathWithProtocol =
+					"file://" + filePath.replaceFirst("^[a-zA-Z]:", "/$0");
+			}
+			else {
+				pathWithProtocol = "file://" + filePath;
+			}
 
 			String contextName = "";
 

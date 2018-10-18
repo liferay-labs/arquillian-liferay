@@ -20,6 +20,7 @@
 		<liferay.server>${liferay.home}/tomcat-9.0.6</liferay.server>
 		<url.liferay><![CDATA[http://downloads.sourceforge.net/project/lportal/Liferay%20Portal/7.1.0%20GA1/liferay-ce-portal-tomcat-7.1.0-ga1-20180703012531655.zip]]></url.liferay>
 		<browser>phantomjs</browser>
+		<sleep.seconds>350</sleep.seconds>
 	</properties>
 
 	<profiles>
@@ -207,7 +208,8 @@
 								<phase>test-compile</phase>
 								<configuration>
 									<target>
-										<sleep seconds="350" />
+										<echo message="Sleeping for ${sleep.seconds}, waiting for Liferay to start up" />
+										<sleep seconds="${sleep.seconds}" />
 									</target>
 								</configuration>
 								<goals>
@@ -361,7 +363,7 @@
 				</dependencies>
 				<executions>
 					<execution>
-						<id>copy--jmx-config</id>
+						<id>copy-jmx-config</id>
 						<phase>generate-test-resources</phase>
 						<goals>
 							<goal>copy-resources</goal>
