@@ -16,9 +16,9 @@
 	<properties>
 		<test.resources>src/test/resources</test.resources>
 		<arquillian.liferay.bundle>${maven.multiModuleProjectDirectory}/arquillian-liferay-bundle</arquillian.liferay.bundle>
-		<liferay.home>${arquillian.liferay.bundle}/liferay-ce-portal-7.0-ga3</liferay.home>
-		<liferay.server>${liferay.home}/tomcat-8.0.32</liferay.server>
-		<url.liferay><![CDATA[http://downloads.sourceforge.net/project/lportal/Liferay%20Portal/7.0.2%20GA3/liferay-ce-portal-tomcat-7.0-ga3-20160804222206210.zip]]></url.liferay>
+		<liferay.home>${arquillian.liferay.bundle}/liferay-ce-portal-7.1.0-ga1</liferay.home>
+		<liferay.server>${liferay.home}/tomcat-9.0.6</liferay.server>
+		<url.liferay><![CDATA[http://downloads.sourceforge.net/project/lportal/Liferay%20Portal/7.1.0%20GA1/liferay-ce-portal-tomcat-7.1.0-ga1-20180703012531655.zip]]></url.liferay>
 		<browser>phantomjs</browser>
 	</properties>
 

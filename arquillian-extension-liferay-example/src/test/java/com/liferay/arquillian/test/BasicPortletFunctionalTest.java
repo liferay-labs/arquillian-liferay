@@ -64,14 +64,22 @@ public class BasicPortletFunctionalTest {
 	public void testAdd() throws IOException, PortalException {
 		browser.get(_portlerURL.toExternalForm());
 
-		firstParamter.clear();
+		// Useful while debugging for testing manually in browser
+		// System.out.println(_portlerURL.toExternalForm());
 
+		// Clear + enter value
+
+		firstParamter.clear();
 		firstParamter.sendKeys("2");
 
-		secondParameter.clear();
+		// Clear + enter value
 
+		secondParameter.clear();
 		secondParameter.sendKeys("3");
 
+		// Set focus + click
+
+		add.sendKeys(" ");
 		add.click();
 
 		Assert.assertEquals("5", result.getText());
@@ -94,7 +102,9 @@ public class BasicPortletFunctionalTest {
 	@Inject
 	private SampleService _sampleService;
 
-	@FindBy(css = "button[type=submit]")
+	// There are two buttons on the page, also the Liferay search button
+
+	@FindBy(css = "button[type=submit][id^='_arquillian_sample']")
 	private WebElement add;
 
 	@Drone

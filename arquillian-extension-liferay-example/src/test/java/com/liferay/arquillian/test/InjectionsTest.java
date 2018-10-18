@@ -76,7 +76,7 @@ public class InjectionsTest {
 
 		Release releasePortal = _releaseLocalService.fetchRelease("portal");
 
-		Assert.assertEquals(7002, releasePortal.getBuildNumber());
+		Assert.assertEquals(7100, releasePortal.getBuildNumber());
 	}
 
 	@Test
