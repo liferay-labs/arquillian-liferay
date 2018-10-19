@@ -625,8 +625,11 @@ mvn test -Pjacoco jacoco:report
 
 ### Arquillian integration tests fail with error "Cannot start Karaf container"
 
-Maybe the JMX-related OSGi modules (Apache Aries JMX, Liferay JMX hot-deploy) listed at the beginning of this
-document have been installed in the OSGi runtime (status "Installed" or "Resolved" in GoGo shell), but for
+The simplest reason for this is that Liferay just has not fully started up and activated all necessary modules yet.
+You want to check this possibility first.
+
+Otherwise, maybe the JMX-related OSGi modules (Apache Aries JMX, Liferay JMX hot-deploy) listed at the beginning
+of this document have been installed in the OSGi runtime (status "Installed" or "Resolved" in GoGo shell), but for
 some reason not started, which sometimes can happen for unknown reasons. I this case
 * connect to the GoGo shell locally via `telnet 11311` (alternatively, use GoGo shell from the Liferay admin GUI),
 * list the corresponding modules via `lb | grep 'JMX|Aries'` and
