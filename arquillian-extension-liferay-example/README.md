@@ -6,10 +6,16 @@ This is an example of how to use the Arquillian Liferay Extension.
 
 This example will be executed in the following environment:
 
-* Tomcat Server 7.0.62
-  * JMX enabled and configured.
+* Tomcat Server 9.0.6
+  * JMX enabled and configured. This means that if you do not use the automatically downloaded and configured
+    Liferay + Tomcat bundle, you should deploy and activate the following modules which are not active by default
+    in the plain vanilla Liferay + Tomcat bundle:
+    * `org.apache.aries.jmx:org.apache.aries.jmx.api:1.1.5`
+    * `org.apache.aries:org.apache.aries.util:1.1.1`
+    * `org.apache.aries.jmx:org.apache.aries.jmx.core:1.1.8`
+    * `com.liferay:com.liferay.hot.deploy.jmx.listener:2.0.0-SNAPSHOT`
   * Tomcat Manager installed and configured.
-* Liferay 7.0.0
+* Liferay 7.1.0
 * JUnit 4.12
 
 ##Creating a Liferay Portlet for testing
@@ -615,3 +621,20 @@ Create a new profile *jacoco*  that configure he plugin ''jacoco-maven-plugin'' 
 mvn test -Pjacoco jacoco:report
 ```
 
+## Known problems
+
+### Arquillian integration tests fail with error "Cannot start Karaf container"
+
+The simplest reason for this is that Liferay just has not fully started up and activated all necessary modules yet.
+You want to check this possibility first.
+
+Otherwise, maybe the JMX-related OSGi modules (Apache Aries JMX, Liferay JMX hot-deploy) listed at the beginning
+of this document have been installed in the OSGi runtime (status "Installed" or "Resolved" in GoGo shell), but for
+some reason not started, which sometimes can happen for unknown reasons. I this case
+* connect to the GoGo shell locally via `telnet 11311` (alternatively, use GoGo shell from the Liferay admin GUI),
+* list the corresponding modules via `lb | grep 'JMX|Aries'` and
+* if there are any modules with a status other than "Active", start each service via its numerical ID using
+  the command `start <ID>` (e.g. `start 950`).
+
+Then check again with `lb | grep 'JMX|Aries`. Everything should be listed as "Active" now and the Arquillian
+tests should be able to use JMX hot-deploy and run as expected.

@@ -16,10 +16,11 @@
 	<properties>
 		<test.resources>src/test/resources</test.resources>
 		<arquillian.liferay.bundle>${maven.multiModuleProjectDirectory}/arquillian-liferay-bundle</arquillian.liferay.bundle>
-		<liferay.home>${arquillian.liferay.bundle}/liferay-ce-portal-7.0-ga3</liferay.home>
-		<liferay.server>${liferay.home}/tomcat-8.0.32</liferay.server>
-		<url.liferay><![CDATA[http://downloads.sourceforge.net/project/lportal/Liferay%20Portal/7.0.2%20GA3/liferay-ce-portal-tomcat-7.0-ga3-20160804222206210.zip]]></url.liferay>
+		<liferay.home>${arquillian.liferay.bundle}/liferay-ce-portal-7.1.0-ga1</liferay.home>
+		<liferay.server>${liferay.home}/tomcat-9.0.6</liferay.server>
+		<url.liferay><![CDATA[http://downloads.sourceforge.net/project/lportal/Liferay%20Portal/7.1.0%20GA1/liferay-ce-portal-tomcat-7.1.0-ga1-20180703012531655.zip]]></url.liferay>
 		<browser>phantomjs</browser>
+		<sleep.seconds>350</sleep.seconds>
 	</properties>
 
 	<profiles>
@@ -72,19 +73,6 @@
 								</goals>
 							</execution>
 							<execution>
-								<id>disable-open-browser</id>
-								<phase>process-test-sources</phase>
-								<configuration>
-									<target>
-										<echo message="create portal-ext.properties" />
-										<echo file="${liferay.home}/portal-ext.properties">browser.launcher.url=</echo>
-									</target>
-								</configuration>
-								<goals>
-									<goal>run</goal>
-								</goals>
-							</execution>
-							<execution>
 								<id>create-file</id>
 								<phase>process-test-sources</phase>
 								<configuration>
@@ -98,6 +86,48 @@
 								</goals>
 							</execution>
 						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<version>3.1.1</version>
+						<executions>
+							<execution>
+								<id>copy-jmx-dependencies</id>
+								<phase>process-test-sources</phase>
+								<goals>
+									<goal>copy</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.apache.aries</groupId>
+									<artifactId>org.apache.aries.util</artifactId>
+									<version>1.1.1</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>org.apache.aries.jmx</groupId>
+									<artifactId>org.apache.aries.jmx.api</artifactId>
+									<version>1.1.5</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>org.apache.aries.jmx</groupId>
+									<artifactId>org.apache.aries.jmx.core</artifactId>
+									<version>1.1.8</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.liferay</groupId>
+									<artifactId>com.liferay.hot.deploy.jmx.listener</artifactId>
+
+									<!-- TODO: replace by non-snapshot version as soon as one is available for Liferay 7.1 -->
+
+									<version>2.0.0-SNAPSHOT</version>
+								</artifactItem>
+							</artifactItems>
+							<outputDirectory>${liferay.home}/osgi/modules</outputDirectory>
+						</configuration>
 					</plugin>
 				</plugins>
 			</build>
@@ -207,7 +237,8 @@
 								<phase>test-compile</phase>
 								<configuration>
 									<target>
-										<sleep seconds="350" />
+										<echo message="Sleeping for ${sleep.seconds}, waiting for Liferay to start up" />
+										<sleep seconds="${sleep.seconds}" />
 									</target>
 								</configuration>
 								<goals>
@@ -260,7 +291,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.12</version>
+			<version>${version.junit}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -314,7 +345,10 @@
 				<targetPath>${liferay.home}</targetPath>
 				<filtering>true</filtering>
 				<directory>${test.resources}/liferay</directory>
-				<includes><include>portal-setup-wizard.properties</include></includes>
+				<includes>
+					<include>portal-ext.properties</include>
+					<include>portal-setup-wizard.properties</include>
+				</includes>
 			</resource>
 		</resources>
 		<testResources>
@@ -331,9 +365,11 @@
 				<executions>
 					<execution>
 
-						<!-- Create special property 'liferay.home.unix' for resource filtering in file
-						portal-setup-wizard.properties because Liferay does not start correctly on Windows
-						if the path contains backslashes -->
+						<!--
+							Create special property 'liferay.home.unix' for resource filtering in file
+							portal-setup-wizard.properties because Liferay does not start correctly on Windows
+							if the path contains backslashes
+						-->
 
 						<id>regex-property</id>
 						<goals>
@@ -361,7 +397,7 @@
 				</dependencies>
 				<executions>
 					<execution>
-						<id>copy--jmx-config</id>
+						<id>copy-jmx-config</id>
 						<phase>generate-test-resources</phase>
 						<goals>
 							<goal>copy-resources</goal>
@@ -380,5 +416,18 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<repositories>
+
+		<!--
+			TODO: remove as soon as non-snapshot version of com.liferay:com.liferay.hot.deploy.jmx.listener
+			is available for Liferay 7.1
+		-->
+
+		<repository>
+			<id>liferay-snapshots</id>
+			<url>https://repository.liferay.com/nexus/content/repositories/liferay-public-snapshots/</url>
+		</repository>
+	</repositories>
 
 </project>

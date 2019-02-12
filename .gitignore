@@ -7,13 +7,13 @@
 *.iml
 *.ipr
 *.iws
-.idea
+.idea/
 
 # Maven
 target/
 
-#Gradle
-.gradle
+# Gradle
+.gradle/
 
 # TestNG
 test-output/
@@ -22,4 +22,4 @@ test-output/
 transaction.log
 
 # Downloads
-arquillian-liferay-bundle
+arquillian-liferay-bundle/

@@ -18,7 +18,7 @@
 		<dependency>
 			<groupId>com.liferay.portal</groupId>
 			<artifactId>com.liferay.portal.kernel</artifactId>
-			<version>2.0.0</version>
+			<version>3.36.0</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.portlet</groupId>
@@ -38,12 +38,15 @@
 		<dependency>
 			<groupId>com.liferay</groupId>
 			<artifactId>com.liferay.hot.deploy.jmx.listener</artifactId>
-			<version>1.0.1</version>
+
+			<!-- TODO: replace by non-snapshot version as soon as one is available for Liferay 7.1 -->
+
+			<version>2.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.12</version>
+			<version>${version.junit}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

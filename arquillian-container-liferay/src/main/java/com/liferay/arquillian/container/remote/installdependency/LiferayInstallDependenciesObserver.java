@@ -335,8 +335,6 @@ public class LiferayInstallDependenciesObserver {
 	}
 
 	private void _initLiferayJMXAttributes() throws LifecycleException {
-		_installBundle(_getMavenDependencyPath(_HOT_DEPLOY_JMX_LISTENER_MVN));
-
 		try {
 
 			// Get the PluginsMBean
@@ -402,10 +400,15 @@ public class LiferayInstallDependenciesObserver {
 
 	private void _installBundle(String filePath) throws LifecycleException {
 		try {
-			String pathWithProtocol = "file://" +
-				(IS_WINDOWS
-					? filePath.replaceFirst("^[a-zA-Z]:", "/$0")
-					: filePath);
+			String pathWithProtocol;
+
+			if (IS_WINDOWS) {
+				pathWithProtocol =
+					"file://" + filePath.replaceFirst("^[a-zA-Z]:", "/$0");
+			}
+			else {
+				pathWithProtocol = "file://" + filePath;
+			}
 
 			String contextName = "";
 
@@ -506,9 +509,6 @@ public class LiferayInstallDependenciesObserver {
 	}
 
 	private static final String _FILE_PREFIX = "file";
-
-	private static final String _HOT_DEPLOY_JMX_LISTENER_MVN =
-		"com.liferay:com.liferay.hot.deploy.jmx.listener:1.0.1";
 
 	private static final String _MAVEN_PREFIX = "mvn";
 
