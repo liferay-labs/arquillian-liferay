@@ -20,3 +20,7 @@ after_success:
 after_failure:
   - cat arquillian-liferay-bundle/liferay-ce-portal-7.1.0-ga1/tomcat-9.0.6/logs/catalina.out
 
+cache:
+  directories:
+  - $HOME/.m2
+
