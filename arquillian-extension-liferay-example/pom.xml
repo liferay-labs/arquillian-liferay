@@ -15,7 +15,7 @@
 
 	<properties>
 		<test.resources>src/test/resources</test.resources>
-		<arquillian.liferay.bundle>${project.basedir}/../arquillian-liferay-bundle</arquillian.liferay.bundle>
+		<arquillian.liferay.bundle>${maven.multiModuleProjectDirectory}/arquillian-liferay-bundle</arquillian.liferay.bundle>
 		<liferay.home>${arquillian.liferay.bundle}/liferay-ce-portal-7.0-ga3</liferay.home>
 		<liferay.server>${liferay.home}/tomcat-8.0.32</liferay.server>
 		<url.liferay><![CDATA[http://downloads.sourceforge.net/project/lportal/Liferay%20Portal/7.0.2%20GA3/liferay-ce-portal-tomcat-7.0-ga3-20160804222206210.zip]]></url.liferay>
@@ -27,7 +27,7 @@
 			<id>download-test-environment</id>
 			<activation>
 				<file>
-					<missing>../arquillian-liferay-bundle/unziped-successfully</missing>
+					<missing>${arquillian.liferay.bundle}/unziped-successfully</missing>
 				</file>
 			</activation>
 			<build>
@@ -76,6 +76,7 @@
 								<phase>process-test-sources</phase>
 								<configuration>
 									<target>
+										<echo message="create portal-ext.properties" />
 										<echo file="${liferay.home}/portal-ext.properties">browser.launcher.url=</echo>
 									</target>
 								</configuration>
@@ -88,6 +89,7 @@
 								<phase>process-test-sources</phase>
 								<configuration>
 									<target>
+										<echo message="touch file ${arquillian.liferay.bundle}/unziped-successfully" />
 										<touch file="${arquillian.liferay.bundle}/unziped-successfully" />
 									</target>
 								</configuration>
@@ -148,7 +150,7 @@
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>exec-maven-plugin</artifactId>
-						<version>1.1</version>
+						<version>1.6.0</version>
 						<executions>
 							<execution>
 								<id>clean-tomcat</id>
@@ -158,15 +160,12 @@
 								</goals>
 								<configuration>
 									<executable>${liferay.executable.stop}</executable>
+
+									<!-- Ignore return code 1 if server is not running -->
+
+									<successCodes>0,1</successCodes>
 								</configuration>
 							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>exec-maven-plugin</artifactId>
-						<version>1.1</version>
-						<executions>
 							<execution>
 								<id>start-tomcat</id>
 								<phase>test-compile</phase>
@@ -175,6 +174,8 @@
 								</goals>
 								<configuration>
 									<executable>${liferay.executable.start}</executable>
+									<async>true</async>
+									<asyncDestroyOnShutdown>true</asyncDestroyOnShutdown>
 								</configuration>
 							</execution>
 							<execution>
@@ -195,11 +196,18 @@
 						<version>1.8</version>
 						<executions>
 							<execution>
+
+								<!--
+									TODO instead: find out how to wait until server has actually started up completely
+								 	as 100 seconds could be way too short (on my machine it is more like 330 s)
+								 	or maybe too long
+								-->
+
 								<id>sleep-for-a-while</id>
 								<phase>test-compile</phase>
 								<configuration>
 									<target>
-										<sleep seconds="100" />
+										<sleep seconds="350" />
 									</target>
 								</configuration>
 								<goals>
@@ -316,6 +324,31 @@
 			</testResource>
 		</testResources>
 		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+
+						<!-- Create special property 'liferay.home.unix' for resource filtering in file
+						portal-setup-wizard.properties because Liferay does not start correctly on Windows
+						if the path contains backslashes -->
+
+						<id>regex-property</id>
+						<goals>
+							<goal>regex-property</goal>
+						</goals>
+						<configuration>
+							<name>liferay.home.unix</name>
+							<value>${liferay.home}</value>
+							<regex>\\</regex>
+							<replacement>/</replacement>
+							<failIfNoMatch>false</failIfNoMatch>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>2.7</version>
