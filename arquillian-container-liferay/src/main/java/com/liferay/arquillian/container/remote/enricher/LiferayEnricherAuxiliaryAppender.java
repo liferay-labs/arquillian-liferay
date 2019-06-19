@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.arquillian.containter.remote.enricher;
+package com.liferay.arquillian.container.remote.enricher;
 
 import org.jboss.arquillian.container.test.spi.RemoteLoadableExtension;
 import org.jboss.arquillian.container.test.spi.client.deployment.AuxiliaryArchiveAppender;

@@ -12,23 +12,15 @@
  * details.
  */
 
-package com.liferay.arquillian.containter.remote.wait;
+package com.liferay.arquillian.container.remote.enricher;
 
-import org.jboss.arquillian.container.test.spi.RemoteLoadableExtension;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /**
- * @author Cristina González
+ * @author Carlos Sierra Andrés
  */
-public class LiferayWaitForServiceBuilderExtension
-	implements RemoteLoadableExtension {
-
-	@Override
-	public void register(ExtensionBuilder builder) {
-		if (Validate.classExists(
-				"org.springframework.context.ApplicationContext")) {
-
-			builder.observer(LiferayWaitForServiceBuilderObserver.class);
-		}
-	}
-
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Inject {
+	String value() default "";
 }
