@@ -14,7 +14,7 @@
 
 package com.liferay.arquillian.container.remote.installdependency;
 
-import com.liferay.arquillian.containter.remote.LiferayRemoteContainerConfiguration;
+import com.liferay.arquillian.container.remote.LiferayRemoteContainerConfiguration;
 import com.liferay.arquillian.portal.bundle.PortalURLBundleActivator;
 import com.liferay.arquillian.portal.bundle.servlet.PortalURLServlet;
 import com.liferay.hot.deploy.jmx.listener.mbean.manager.PluginMBeanManager;

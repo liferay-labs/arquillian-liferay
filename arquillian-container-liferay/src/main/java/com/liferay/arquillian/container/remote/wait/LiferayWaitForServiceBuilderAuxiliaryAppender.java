@@ -12,9 +12,9 @@
  * details.
  */
 
-package com.liferay.arquillian.containter.remote.wait;
+package com.liferay.arquillian.container.remote.wait;
 
-import com.liferay.arquillian.containter.remote.enricher.Inject;
+import com.liferay.arquillian.container.remote.enricher.Inject;
 
 import org.jboss.arquillian.container.test.spi.RemoteLoadableExtension;
 import org.jboss.arquillian.container.test.spi.client.deployment.AuxiliaryArchiveAppender;

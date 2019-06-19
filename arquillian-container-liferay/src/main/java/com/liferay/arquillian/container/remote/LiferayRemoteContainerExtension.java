@@ -12,11 +12,11 @@
  * details.
  */
 
-package com.liferay.arquillian.containter.remote;
+package com.liferay.arquillian.container.remote;
 
+import com.liferay.arquillian.container.remote.enricher.LiferayEnricherAuxiliaryAppender;
 import com.liferay.arquillian.container.remote.installdependency.LiferayInstallDependenciesObserver;
-import com.liferay.arquillian.containter.remote.enricher.LiferayEnricherAuxiliaryAppender;
-import com.liferay.arquillian.containter.remote.wait.LiferayWaitForServiceBuilderAuxiliaryAppender;
+import com.liferay.arquillian.container.remote.wait.LiferayWaitForServiceBuilderAuxiliaryAppender;
 import com.liferay.arquillian.portal.bundle.annotation.PortalURLTestEnricher;
 
 import org.jboss.arquillian.container.osgi.karaf.remote.KarafRemoteDeployableContainer;

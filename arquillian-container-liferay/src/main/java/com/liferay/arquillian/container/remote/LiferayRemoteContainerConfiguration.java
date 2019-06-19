@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.arquillian.containter.remote;
+package com.liferay.arquillian.container.remote;
 
 import org.jboss.arquillian.container.osgi.karaf.remote.KarafRemoteContainerConfiguration;
 
