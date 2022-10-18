@@ -206,7 +206,7 @@ public class LiferayInstallDependenciesObserver {
 			resolverWithLocalRepoAndLiferayRepo =
 				resolverWithLocalRepo.withRemoteRepo(
 					"liferay-public",
-					"http://cdn.repository.liferay.com/" +
+					"http://repository-cdn.liferay.com/" +
 						"nexus/content/groups/public",
 					"default");
 
